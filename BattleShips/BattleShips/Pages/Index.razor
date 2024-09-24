@@ -6,4 +6,47 @@
 
 Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@code{
+    
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>MAX/CUR</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var room in GetAllRoom())
+        {
+            <tr>
+                <td>@room.DateCreated.ToShortDateString()</td>
+                <td>@room.RoomName</td>
+                <td>
+                    @if (room.MaxPlayerCount > room.CurrentPlayerCount)
+                    {
+                        <span style="color: green">
+                            @room.MaxPlayerCount.ToString() / @room.CurrentPlayerCount.ToString()
+                        </span>
+                    }
+                    else
+                    {
+                        <span style="color: red">
+                            @room.MaxPlayerCount.ToString() / @room.CurrentPlayerCount.ToString()
+                        </span>
+                    }
+
+                </td>
+                <td>
+                    @if (room.MaxPlayerCount > room.CurrentPlayerCount)
+                    {
+                        <button type="button" class="btn btn-primary">Join Room</button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
