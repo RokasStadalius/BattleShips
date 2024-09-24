@@ -29,13 +29,13 @@ Welcome to your new app.
                     @if (room.MaxPlayerCount > room.CurrentPlayerCount)
                     {
                         <span style="color: green">
-                            @room.MaxPlayerCount.ToString() / @room.CurrentPlayerCount.ToString()
+                            @room.CurrentPlayerCount.ToString() / @room.MaxPlayerCount.ToString() 
                         </span>
                     }
                     else
                     {
                         <span style="color: red">
-                            @room.MaxPlayerCount.ToString() / @room.CurrentPlayerCount.ToString()
+                            @room.CurrentPlayerCount.ToString() / @room.MaxPlayerCount.ToString() 
                         </span>
                     }
 
