@@ -1,0 +1,40 @@
+﻿@using BattleShips.Models;
+
+<h1>@FieldModel.Name</h1>
+<div class="field-container">
+    <div class="row">
+        <div class="cell header-cell"></div>
+        @for (int col = 0; col < FieldModel.Columns; col++)
+        {
+            <div class="cell header-cell">
+                @((char)('A' + col))
+            </div>
+        }
+    </div>
+    @for (int row = 0; row < FieldModel.Rows; row++)
+    {
+        <div class="row">
+            <div class="cell header-cell">
+                @(row + 1)
+            </div>
+            @for (int col = 0; col < FieldModel.Columns; col++)
+            {
+                <div class="cell">
+                    <button class="cell-button" @onclick="@(e => CellClicked(row, col))">
+                        @*Icona ar kitos tekturos *@
+                    </button>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public Field FieldModel { get; set; }
+
+    private void CellClicked(int row, int col)
+    {
+        
+    }
+}

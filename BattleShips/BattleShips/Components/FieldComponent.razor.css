@@ -1,0 +1,36 @@
+﻿.field-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    width: 25px;
+    height: 25px;
+    margin: 2px;
+    padding: 0 0 0 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.header-cell {
+    background-color: lightgray;
+    font-weight: bold;
+}
+
+
+.cell-button {
+    width: 100%;
+    height: 100%;
+    background-color: lightblue;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s ease;
+}
+
+.cell-button:hover {
+    background-color: dodgerblue;
+    cursor: pointer;
+}

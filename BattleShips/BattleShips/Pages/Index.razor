@@ -1,4 +1,6 @@
 ﻿@page "/"
+@using BattleShips.Models;
+@using BattleShips.Components;
 
 <PageTitle>Index</PageTitle>
 
@@ -6,8 +8,9 @@
 
 Welcome to your new app.
 
-@code{
-    
+@code {
+    private Field fieldA = new Field { Rows = 10, Columns = 10, Name="FieldA" };
+    private Field fieldB = new Field { Rows = 10, Columns = 10, Name="FieldB" };
 }
 
 <table class="table">
@@ -50,3 +53,13 @@ Welcome to your new app.
         }
     </tbody>
 </table>
+<hr />
+<div style="display: flex; justify-content:space-around">
+    <div>
+        <FieldComponent FieldModel="@fieldA" />
+    </div>
+    <div>
+        <FieldComponent FieldModel="@fieldB" />
+    </div>
+
+</div>
