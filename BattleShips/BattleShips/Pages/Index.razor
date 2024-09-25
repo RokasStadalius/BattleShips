@@ -9,8 +9,8 @@
 Welcome to your new app.
 
 @code {
-    private Field fieldA = new Field { Rows = 10, Columns = 10, Name="FieldA" };
-    private Field fieldB = new Field { Rows = 10, Columns = 10, Name="FieldB" };
+    private Field fieldA = new Field("FieldA", 10, 10);
+    private Field fieldB = new Field("FieldB", 10, 10);
 }
 
 <table class="table">
@@ -62,4 +62,9 @@ Welcome to your new app.
         <FieldComponent FieldModel="@fieldB" />
     </div>
 
+</div>
+<div style="display: flex; justify-content:space-around">
+    <div>
+        <FieldBuildingComponent FieldModel="@fieldA" />
+    </div>
 </div>

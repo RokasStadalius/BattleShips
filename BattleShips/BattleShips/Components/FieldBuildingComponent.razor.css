@@ -1,0 +1,53 @@
+﻿.field-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+}
+
+.cell {
+    width: 25px;
+    height: 25px;
+    margin: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0 0 0;
+    border: 1px solid #ccc;
+}
+
+.hovered {
+    background-color: yellow;
+}
+
+.header-cell {
+    background-color: lightgray;
+    font-weight: bold;
+}
+
+.ship-container {
+    margin-bottom: 20px;
+}
+
+.ship {
+    background-color: darkgray;
+    padding: 5px;
+    margin: 5px;
+    cursor: grab;
+    display: inline-block;
+}
+
+.cell-button {
+    width: 100%;
+    height: 100%;
+    background-color: lightblue;
+    border: 1px solid #ccc;
+    transition: background-color 0.3s ease;
+}
+
+.cell-button:hover {
+    background-color: dodgerblue;
+    cursor: pointer;
+}

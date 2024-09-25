@@ -1,0 +1,90 @@
+﻿@using BattleShips.Models;
+@inject Blazored.Toast.Services.IToastService ToastService
+
+@code {
+    private List<Ship> ships = new List<Ship>
+    {
+        new Ship {ShipID=1, ShipName = "Destroyer", Length = 2 },
+        new Ship {ShipID=2, ShipName = "Submarine", Length = 3 },
+        new Ship {ShipID=3, ShipName = "Battleship", Length = 4 },
+        new Ship {ShipID=4, ShipName = "Carrier", Length = 5 }
+    };
+}
+
+
+
+<div class="ship-container">
+    @foreach (var ship in ships)
+    {
+        <div class="ship" draggable="true" @ondragstart="(e => OnDragStart(e, ship))" style="width:@(ship.Length * 50 + 10)px">
+            @ship.ShipName (@ship.Length)
+        </div>
+    }
+</div>
+
+
+<h1>@FieldModel.Name</h1>
+<div class="field-container">
+    <div class="row">
+        <div class="cell header-cell"></div>
+        @for (int col = 0; col < FieldModel.Columns; col++)
+        {
+            <div class="cell header-cell">
+                @((char)('A' + col))
+            </div>
+        }
+    </div>
+    @for (int row = 0; row < FieldModel.Rows; row++)
+    {
+        <div class="row">
+            <div class="cell header-cell">
+                @(row + 1)
+            </div>
+            @for (int col = 0; col < FieldModel.Columns; col++)
+            {
+                FieldCell innerCell = FieldModel.MapLayout[row][col];
+
+                <div class="cell"
+                    @ondragover:preventDefault="true"
+                    @ondragover="@(e => OnDragOver(innerCell))"
+                    @ondrop="@(e => OnDrop(innerCell))">
+                    <button class="cell-button" style="background-color:@(innerCell.GetCellColorState(true));">
+                        
+                    </button>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public Field FieldModel { get; set; }
+    private Ship draggedShip;
+    private FieldCell hoveredCell;
+
+    private void OnDragStart(DragEventArgs e, Ship ship)
+    {
+        draggedShip = ship;
+        e.DataTransfer.EffectAllowed = "move";
+    }
+
+    private void OnDragOver(FieldCell cell)
+    {
+        hoveredCell = cell;
+    }
+
+    private void OnDrop(FieldCell cell)
+    {
+        if (draggedShip != null)
+        {
+            if (FieldModel.CanPlaceShip(draggedShip,cell))
+                FieldModel.PlaceShipOnMap(draggedShip, cell);
+            else
+                ToastService.ShowWarning("Ship cannot be placed here!");
+
+            draggedShip = null;
+            hoveredCell = null;
+        }
+    }
+}
