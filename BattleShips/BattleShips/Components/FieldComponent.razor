@@ -27,10 +27,6 @@
                     @onmouseover="@(e => OnMouseOver(innerCell))"
                     @onmouseout="OnMouseOut"
                     @onclick="@(e => CellClicked(innerCell))">
-                        @if (innerCell.ShipID.HasValue)
-                        {
-                            <span>🚢</span>
-                        }
                     </button>
                 </div>
             }
@@ -46,7 +42,7 @@
     private void CellClicked(FieldCell cell)
     {
         cell.IsShot = true;
-        if(cell.ShipID != null)
+        if (cell.CellShip != null)
         {
             //Pataiki i laiva
         }

@@ -4,7 +4,7 @@
     {
         public int ColIndex { get; set; }
         public int RowIndex { get; set; }
-        public int? ShipID { get; set; }
+        public Ship? CellShip { get; set; }
         public bool IsShot { get; set; }
 
         private string color_Water = "rgb(79, 240, 202)";
@@ -16,14 +16,14 @@
         {
             if (IsShot)
             {
-                if (ShipID != null)
+                if (CellShip != null)
                     return color_Ship_Hit;
                 else
                     return color_Water_Hit;
             }
             else
             {
-                if (ShipID != null && showShips)
+                if (CellShip != null && showShips)
                     return color_Ship;
                 else
                     return color_Water;

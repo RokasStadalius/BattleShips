@@ -4,10 +4,10 @@
 @code {
     private List<Ship> ships = new List<Ship>
     {
-        new Ship {ShipID=1, ShipName = "Destroyer", Length = 2 },
-        new Ship {ShipID=2, ShipName = "Submarine", Length = 3 },
-        new Ship {ShipID=3, ShipName = "Battleship", Length = 4 },
-        new Ship {ShipID=4, ShipName = "Carrier", Length = 5 }
+        new Ship {ShipID=-1,ShipTypeID=1,MaxPlacementCount=4, ShipName = "Destroyer", Length = 2 },
+        new Ship {ShipID=-1,ShipTypeID=2,MaxPlacementCount=2, ShipName = "Submarine", Length = 3 },
+        new Ship {ShipID=-1,ShipTypeID=3,MaxPlacementCount=1, ShipName = "Battleship", Length = 4 },
+        new Ship {ShipID=-1,ShipTypeID=4,MaxPlacementCount=1, ShipName = "Carrier", Length = 5 }
     };
 }
 
@@ -16,8 +16,8 @@
 <div class="ship-container">
     @foreach (var ship in ships)
     {
-        <div class="ship" draggable="true" @ondragstart="(e => OnDragStart(e, ship))" style="width:@(ship.Length * 50 + 10)px">
-            @ship.ShipName (@ship.Length)
+        <div class="ship" draggable="true" @ondragstart="(e => OnDragStart(e, ship))" style="width:@(ship.Length * 50 + 50)px">
+            @ship.ShipName (@ship.Length) 
         </div>
     }
 </div>
@@ -78,8 +78,13 @@
     {
         if (draggedShip != null)
         {
-            if (FieldModel.CanPlaceShip(draggedShip,cell))
-                FieldModel.PlaceShipOnMap(draggedShip, cell);
+            if (FieldModel.CanPlaceShip(draggedShip, cell))
+            {
+                if (FieldModel.GetShipCountInMap(draggedShip.ShipTypeID) < draggedShip.MaxPlacementCount)
+                    FieldModel.PlaceShipOnMap(draggedShip, cell);
+                else
+                    ToastService.ShowError("Ship count limit is reached!");
+            }
             else
                 ToastService.ShowWarning("Ship cannot be placed here!");
 
