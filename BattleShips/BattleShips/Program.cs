@@ -1,4 +1,5 @@
-using BattleShips.Data;
+using BattleShips.Models;
+using BattleShips.Services;
 using Blazored.Toast;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -9,7 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddBlazoredToast();
-builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddSingleton<RoomService>();
+builder.Services.AddScoped<UserState>();
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -28,6 +31,9 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapBlazorHub();
+
+app.MapHub<RoomHub>("/roomHub");
 app.MapFallbackToPage("/_Host");
+
 
 app.Run();
