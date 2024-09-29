@@ -31,6 +31,7 @@
 
         field = new Field("Field_" + currentRoom.RoomName, 10, 10);
         currentRoom.UserFields.Add(new Tuple<Field, User,bool>(field, UserState.CurrentUser,false));
+        RoomService.RefreshRoomList();
         if (currentRoom.CurrentPlayerCount == currentRoom.MaxPlayerCount)
         {
             ToastService.ShowSuccess("All Players are here!");
@@ -79,14 +80,14 @@ else
             <div>
                 @if(@fieldA != null)
                 {
-                    <FieldComponent FieldModel="@fieldA" />
+                    <FieldComponent FieldModel="@fieldA" ShowFieldShips="true" />
                 }
                 
             </div>
             <div>
                 @if (fieldB != null)
                 {
-                    <FieldComponent FieldModel="@fieldB" />
+                    <FieldComponent FieldModel="@fieldB" ShowFieldShips="false" />
                 }
             </div>
         </div>

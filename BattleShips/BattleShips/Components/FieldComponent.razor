@@ -23,7 +23,7 @@
             {
                 FieldCell innerCell = FieldModel.MapLayout[row][col];
                 <div class="cell">
-                    <button class="cell-button" style="background-color:@(innerCell.GetCellColorState(true));"
+                    <button class="cell-button" style="background-color:@(innerCell.GetCellColorState(ShowFieldShips));"
                     @onmouseover="@(e => OnMouseOver(innerCell))"
                     @onmouseout="OnMouseOut"
                     @onclick="@(e => CellClicked(innerCell))">
@@ -37,6 +37,8 @@
 @code {
     [Parameter]
     public Field FieldModel { get; set; }
+    [Parameter]
+    public bool ShowFieldShips { get; set; }
     private FieldCell? hoveredCell;
 
     private void CellClicked(FieldCell cell)

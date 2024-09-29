@@ -21,21 +21,14 @@ namespace BattleShips.Services
         {
             var room = new Room(roomName);
             Rooms.Add(room);
+            RefreshRoomList();
+        }
+
+        public void RefreshRoomList()
+        {
             _hubContext.Clients.All.SendAsync("ReceiveRoomUpdate");
         }
-
-        public bool JoinRoom(string roomId, User user, string connectionId)
-        {
-            var room = GetRoomById(roomId);
-            if (room != null && !room.IsFull)
-            {
-                _hubContext.Clients.All.SendAsync("ReceiveRoomUpdate");
-
-                return true;
-            }
-            return false;
-        }
-        public void StartRoomGame(Room room)
+        public void StartRoomGame(Room room = null)
         {
             _hubContext.Clients.All.SendAsync("GameStarted");
         }
