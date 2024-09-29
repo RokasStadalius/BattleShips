@@ -91,18 +91,16 @@ else
     {
         await LoadRoomList();
 
-        // Initialize the SignalR connection
         hubConnection = new HubConnectionBuilder()
             .WithUrl(NavigationManager.ToAbsoluteUri("/roomHub"))
             .Build();
 
-        // Subscribe to the "ReceiveRoomUpdate" event from the server
         hubConnection.On("ReceiveRoomUpdate", async () =>
         {
             Console.WriteLine("Room update received! - " + (currentUser?.UserName ?? "unknown user"));
-            await LoadRoomList(); // Reload the room list when an update is received
+            await LoadRoomList();
             Console.WriteLine($"Loaded rooms for {currentUser?.UserName}: " + string.Join(", ", rooms.Select(r => r.RoomName)));
-            StateHasChanged(); // Trigger UI refresh
+            InvokeAsync(StateHasChanged);
         });
 
         try
@@ -133,8 +131,7 @@ else
         var connectionId = hubConnection?.ConnectionId;
         if (!string.IsNullOrEmpty(connectionId))
         {
-            var success = await RoomService.JoinRoom(roomId, currentUser, connectionId);
-            if (success)
+            if (RoomService.JoinRoom(roomId, currentUser, connectionId))
             {
                 NavigationManager.NavigateTo($"/room/{roomId}");
             }
@@ -163,7 +160,6 @@ else
     {
         RoomService.CreateRoom("testas2");
         await LoadRoomList();
-        StateHasChanged();
     }
 
     private async Task ReloadRoomList()

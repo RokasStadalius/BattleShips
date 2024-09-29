@@ -21,16 +21,5 @@ namespace BattleShips.Models
         {
             await base.OnDisconnectedAsync(exception);
         }
-
-        public async Task SetPlayerReady(string roomId, string userId)
-        {
-            var room = _roomService.GetRoomById(roomId);
-            if (room != null)
-            {
-                room.SetPlayerReady(userId);
-                await Clients.Group(roomId).SendAsync("GameStarted"); // Notify all clients
-            }
-        }
-
     }
 }

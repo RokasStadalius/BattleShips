@@ -9,12 +9,13 @@ namespace BattleShips.Models
         public string RoomName { get; set; }
         public DateTime DateCreated { get; set; }
         public int MaxPlayerCount { get; set; } = 2;
-        public int CurrentPlayerCount => Players.Count;
-        public List<User> Players { get; set; } = new List<User>();
-        public List<string> ReadyPlayers { get; set; } = new List<string>(); // Track ready players
+        public int CurrentPlayerCount => UserFields.Count;
+
+        //Mapas;Naudotojas;Ar pasiruoses
+        public List<Tuple<Field, User,bool>> UserFields = new List<Tuple<Field, User,bool>>();
 
         public bool IsGameStarted = false;
-        public bool IsFull => Players.Count >= MaxPlayerCount;
+        public bool IsFull => UserFields.Count >= MaxPlayerCount;
 
         public Room(string roomName)
         {
@@ -24,24 +25,16 @@ namespace BattleShips.Models
             DateCreated = DateTime.Now;
         }
 
-        public bool AddPlayer(User user)
-        {
-            if (!IsFull && Players.All(p => p.UserId != user.UserId))
-            {
-                Players.Add(user);
-                return true;
-            }
-            return false;
-        }
-
         public void SetPlayerReady(string userId)
         {
-            if (!ReadyPlayers.Contains(userId))
+            var user = UserFields.Where(n => n.Item2.UserId == userId).FirstOrDefault();
+            if (user != null)
             {
-                ReadyPlayers.Add(userId);
+                UserFields.Remove(user);
+                UserFields.Add(new Tuple<Field, User, bool>(user.Item1, user.Item2, true));
             }
 
-            if (ReadyPlayers.Count == MaxPlayerCount)
+            if (UserFields.Where(n=>(bool)n.Item3).Count() == MaxPlayerCount)
             {
                 IsGameStarted = true; // All players are ready
             }

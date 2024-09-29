@@ -24,34 +24,20 @@ namespace BattleShips.Services
             _hubContext.Clients.All.SendAsync("ReceiveRoomUpdate");
         }
 
-        public async Task<bool> JoinRoom(string roomId, User user, string connectionId)
+        public bool JoinRoom(string roomId, User user, string connectionId)
         {
             var room = GetRoomById(roomId);
             if (room != null && !room.IsFull)
             {
-                room.AddPlayer(user);
-
-                await _hubContext.Groups.AddToGroupAsync(connectionId, room.RoomId);
-
-                await _hubContext.Clients.Group(room.RoomId).SendAsync("ReceiveRoomUpdate");
+                _hubContext.Clients.All.SendAsync("ReceiveRoomUpdate");
 
                 return true;
             }
             return false;
         }
-
-        public async Task LeaveRoom(string roomId, string connectionId)
+        public void StartRoomGame(Room room)
         {
-            var room = GetRoomById(roomId);
-            if (room != null)
-            {
-                await _hubContext.Groups.RemoveFromGroupAsync(connectionId, room.RoomId);
-
-                await _hubContext.Clients.Group(room.RoomId).SendAsync("ReceiveRoomUpdate");
-            }
+            _hubContext.Clients.All.SendAsync("GameStarted");
         }
-
-        // Add this method to get the HubContext
-        public IHubContext<RoomHub> GetHubContext() => _hubContext;
     }
 }

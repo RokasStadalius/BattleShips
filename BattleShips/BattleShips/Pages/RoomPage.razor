@@ -14,8 +14,10 @@
     [Parameter] public string RoomId { get; set; }
     private HubConnection? hubConnection;
     private Room currentRoom;
-
     private Field field; // For ships building
+
+    private Field fieldA; // For ships building
+    private Field fieldB; // For ships building
 
     protected override async Task OnInitializedAsync()
     {
@@ -28,7 +30,7 @@
         }
 
         field = new Field("Field_" + currentRoom.RoomName, 10, 10);
-
+        currentRoom.UserFields.Add(new Tuple<Field, User,bool>(field, UserState.CurrentUser,false));
         if (currentRoom.CurrentPlayerCount == currentRoom.MaxPlayerCount)
         {
             ToastService.ShowSuccess("All Players are here!");
@@ -46,15 +48,19 @@
 
         hubConnection.On("GameStarted", () =>
         {
-            currentRoom.IsGameStarted = true;
-            StateHasChanged(); // Refresh the UI
+            fieldA = field;
+            fieldB = currentRoom.UserFields.Where(n => n.Item2.UserId != UserState.CurrentUser.UserId).FirstOrDefault().Item1;
+            InvokeAsync(StateHasChanged);
         });
     }
 
-    private async Task ReadyClicked()
+    private void ReadyClicked()
     {
         field.IsReadyToPlay = true;
-        await hubConnection.InvokeAsync("SetPlayerReady", currentRoom.RoomId, UserState.CurrentUser.UserId);
+        currentRoom.SetPlayerReady(UserState.CurrentUser.UserId);
+        if (currentRoom.IsGameStarted)
+            RoomService.StartRoomGame(currentRoom);
+
     }
 }
 
@@ -71,10 +77,17 @@ else
     {
         <div style="display: flex; justify-content:space-around">
             <div>
-                <FieldComponent FieldModel="@field" />
+                @if(@fieldA != null)
+                {
+                    <FieldComponent FieldModel="@fieldA" />
+                }
+                
             </div>
             <div>
-                <FieldComponent FieldModel="@field" />
+                @if (fieldB != null)
+                {
+                    <FieldComponent FieldModel="@fieldB" />
+                }
             </div>
         </div>
     }
