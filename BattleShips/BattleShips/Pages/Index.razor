@@ -2,11 +2,10 @@
 @implements IAsyncDisposable;
 
 @inject Blazored.Toast.Services.IToastService ToastService;
-@inject RoomService RoomService
-@inject NavigationManager NavigationManager
-@inject IJSRuntime JSRuntime
-@inject UserState UserState
-
+@inject RoomService RoomService;
+@inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime;
+@inject UserState UserState;
 
 @using BattleShips.Models;
 @using BattleShips.Components;
@@ -40,7 +39,7 @@ else
         <button type="button" class="btn btn-secondary" @onclick="@(() => ReloadRoomList())">Reload Room List</button>
         <button type="button" class="btn btn-secondary" @onclick="@(() => OpenNewTab())">New user</button>
     </div>
-    
+
     @if (rooms is not null)
     {
         <h3>Available Rooms</h3>
@@ -100,10 +99,10 @@ else
         // Subscribe to the "ReceiveRoomUpdate" event from the server
         hubConnection.On("ReceiveRoomUpdate", async () =>
         {
-            Console.WriteLine("Room update received! - " +currentUser.UserName);
+            Console.WriteLine("Room update received! - " + (currentUser?.UserName ?? "unknown user"));
             await LoadRoomList(); // Reload the room list when an update is received
-            Console.WriteLine($"Loaded rooms for {currentUser.UserName}: " + string.Join(", ", rooms.Select(r => r.RoomName)));
-            StateHasChanged();    // Trigger UI refresh
+            Console.WriteLine($"Loaded rooms for {currentUser?.UserName}: " + string.Join(", ", rooms.Select(r => r.RoomName)));
+            StateHasChanged(); // Trigger UI refresh
         });
 
         try
@@ -118,7 +117,7 @@ else
 
     private async Task LoadRoomList()
     {
-        rooms = RoomService.GetAllRooms().ToList();
+        rooms = RoomService?.GetAllRooms()?.ToList() ?? new List<Room>();
     }
 
     public async ValueTask DisposeAsync()
@@ -148,7 +147,7 @@ else
 
     private void SetUser(string name)
     {
-        if(!String.IsNullOrEmpty(name))
+        if (!string.IsNullOrWhiteSpace(name))
         {
             currentUser = new User(name);
             isUserJoined = true;
@@ -156,7 +155,7 @@ else
         }
         else
         {
-            ToastService.ShowError("Please, enter a username");
+            ToastService.ShowError("Name cannot be empty!");
         }
     }
 
@@ -166,6 +165,7 @@ else
         await LoadRoomList();
         StateHasChanged();
     }
+
     private async Task ReloadRoomList()
     {
         await LoadRoomList();
@@ -177,5 +177,68 @@ else
         var script = $"openNewTab('{url}');";
 
         _ = JSRuntime.InvokeVoidAsync("eval", script);
+    }
+}
+
+<PageTitle>Index</PageTitle>
+
+@if (!isUserJoined)
+{
+    <h3>Enter your name to join a room:</h3>
+    <input @bind="playerName" placeholder="Enter your name" />
+    <button @onclick="() => SetUser(playerName)" class="btn btn-primary">Set Name</button>
+}
+else
+{
+    <h1>Welcome, @currentUser?.UserName</h1>
+    <div>
+        <button type="button" class="btn btn-primary" @onclick="@(() => CreateRoom())">Create Room</button>
+        <button type="button" class="btn btn-secondary" @onclick="@(() => ReloadRoomList())">Reload Room List</button>
+        <button type="button" class="btn btn-secondary" @onclick="@(() => OpenNewTab())">New user</button>
+    </div>
+
+    @if (rooms is not null && rooms.Count > 0)
+    {
+        <h3>Available Rooms</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>MAX/CUR</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var room in rooms)
+                {
+                    <tr>
+                        <td>@room.DateCreated.ToShortDateString()</td>
+                        <td>@room.RoomName</td>
+                        <td>
+                            @if (room.MaxPlayerCount > room.CurrentPlayerCount)
+                            {
+                                <span style="color: green">
+                                    @room.CurrentPlayerCount / @room.MaxPlayerCount
+                                </span>
+                            }
+                            else
+                            {
+                                <span style="color: red">
+                                    @room.CurrentPlayerCount / @room.MaxPlayerCount
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @if (room.MaxPlayerCount > room.CurrentPlayerCount)
+                            {
+                                <button type="button" class="btn btn-primary" @onclick="@(() => JoinRoom(room.RoomId))">Join Room</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr />
     }
 }

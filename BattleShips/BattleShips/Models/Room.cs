@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using Microsoft.AspNetCore.SignalR;
+using System.Numerics;
 
 namespace BattleShips.Models
 {
@@ -10,6 +11,7 @@ namespace BattleShips.Models
         public int MaxPlayerCount { get; set; } = 2;
         public int CurrentPlayerCount => Players.Count;
         public List<User> Players { get; set; } = new List<User>();
+        public List<string> ReadyPlayers { get; set; } = new List<string>(); // Track ready players
 
         public bool IsGameStarted = false;
         public bool IsFull => Players.Count >= MaxPlayerCount;
@@ -31,5 +33,19 @@ namespace BattleShips.Models
             }
             return false;
         }
+
+        public void SetPlayerReady(string userId)
+        {
+            if (!ReadyPlayers.Contains(userId))
+            {
+                ReadyPlayers.Add(userId);
+            }
+
+            if (ReadyPlayers.Count == MaxPlayerCount)
+            {
+                IsGameStarted = true; // All players are ready
+            }
+        }
     }
+
 }
