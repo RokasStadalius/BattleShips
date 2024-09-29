@@ -10,12 +10,13 @@ namespace BattleShips.Models
         public string Name { get; set; }
         public int Rows { get; set; }
         public int Columns { get; set; }
-
+        public bool IsReadyToPlay { get; set; }
         public Field(string name, int rows, int columns)
         {
             Name = name;
             Rows = rows;
             Columns = columns;
+            IsReadyToPlay = false;
             BuildMap();
         }
         private void BuildMap()

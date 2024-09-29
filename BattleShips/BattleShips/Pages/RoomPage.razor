@@ -1,0 +1,99 @@
+﻿@page "/room/{roomId}"
+@inject Blazored.Toast.Services.IToastService ToastService
+@inject RoomService RoomService;
+@inject UserState UserState
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+@using BattleShips.Models;
+@using BattleShips.Components;
+@using BattleShips.Services;
+@using Microsoft.AspNetCore.SignalR.Client;
+
+
+@code {
+    [Parameter] public string RoomId { get; set; }
+    private HubConnection? hubConnection;
+    private Room currentRoom;
+
+
+    private Field field; //lAIVAMS STATYTI;
+
+    private Field fieldA; //Zaidejo Map'as;
+    private Field fieldB; //Prieso  Map'as;
+
+    protected override void OnInitialized()
+    {
+        currentRoom = RoomService.GetRoomById(RoomId);
+
+        if (currentRoom == null)
+        {
+            ToastService.ShowError("Room not found!");
+        }
+        else
+        {
+            field = new Field("Field_" + currentRoom.RoomName, 10, 10);
+            fieldA = field;
+            fieldB = field;
+            if (currentRoom.CurrentPlayerCount == currentRoom.MaxPlayerCount)
+            {
+                ToastService.ShowSuccess("All Players are here!");
+            }
+            else
+            {
+            
+                ToastService.ShowError("Waiting for players");
+            }
+        }
+    }
+
+}
+<h2>@UserState.CurrentUser?.UserName</h2>
+<h3>Welcome to Room @currentRoom?.RoomName</h3>
+
+@if (currentRoom == null)
+{
+    
+}
+else{
+    @if (currentRoom.IsGameStarted)
+    {
+        <div style="display: flex; justify-content:space-around">
+            <div>
+                <FieldComponent FieldModel="@fieldA" />
+            </div>
+            <div>
+                <FieldComponent FieldModel="@fieldB" />
+            </div>
+        </div>
+    }
+    else
+    {
+        <div style="display: flex; justify-content:space-around">
+            <div>
+                <FieldBuildingComponent FieldModel="@field" />
+            </div>
+        </div>
+        <div>
+            @if (!field.IsReadyToPlay)
+            {
+                <button type="button" class="btn btn-primary" @onclick="@(() => ReadyClicked())">Ready!</button>
+            }
+            else
+            {
+                <h2>Waitong for others!</h2>
+            }
+        </div>
+    }
+}
+
+
+
+@code{
+    private void ReadyClicked()
+    {
+        field.IsReadyToPlay = true;
+        //hubConnection.Clients.All.SendAsync("ReceiveRoomReady");
+        
+    }
+}

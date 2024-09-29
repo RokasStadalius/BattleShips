@@ -1,70 +1,180 @@
 ﻿@page "/"
+@implements IAsyncDisposable;
+
+@inject Blazored.Toast.Services.IToastService ToastService;
+@inject RoomService RoomService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@inject UserState UserState
+
+
 @using BattleShips.Models;
 @using BattleShips.Components;
+@using BattleShips.Pages;
+@using BattleShips.Services;
+@using Microsoft.AspNetCore.SignalR.Client;
+
+<script>
+    function openNewTab(url) {
+        window.open(url, '_blank');
+    }
+</script>
+
+@code {
+    private List<Room> rooms = new List<Room>();
+    private HubConnection? hubConnection;
+
+    private string playerName;
+    private User currentUser;
+    private bool isUserJoined = false;
+
+}
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+@if (!isUserJoined)
+{
+    <h3>Enter your name to join a room:</h3>
+    <input @bind="playerName" placeholder="Enter your name" />
+    <button @onclick="() => SetUser(playerName)" class="btn btn-primary">Set Name</button>
+}
+else
+{
+    <h1>Welcome, @currentUser.UserName</h1>
+    <div>
+        <button type="button" class="btn btn-primary" @onclick="@(() => CreateRoom())">Create Room</button>
+        <button type="button" class="btn btn-secondary" @onclick="@(() => ReloadRoomList())">Reload Room List</button>
+        <button type="button" class="btn btn-secondary" @onclick="@(() => OpenNewTab())">New user</button>
+    </div>
 
-Welcome to your new app.
-
-@code {
-    private Field fieldA = new Field("FieldA", 10, 10);
-    private Field fieldB = new Field("FieldB", 10, 10);
+    @if (rooms is not null)
+    {
+        <h3>Available Rooms</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>MAX/CUR</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var room in rooms)
+                {
+                    <tr>
+                        <td>@room.DateCreated.ToShortDateString()</td>
+                        <td>@room.RoomName</td>
+                        <td>
+                            @if (room.MaxPlayerCount > room.CurrentPlayerCount)
+                            {
+                                <span style="color: green">
+                                    @room.CurrentPlayerCount / @room.MaxPlayerCount
+                                </span>
+                            }
+                            else
+                            {
+                                <span style="color: red">
+                                    @room.CurrentPlayerCount / @room.MaxPlayerCount
+                                </span>
+                            }
+                        </td>
+                        <td>
+                            @if (room.MaxPlayerCount > room.CurrentPlayerCount)
+                            {
+                                <button type="button" class="btn btn-primary" @onclick="@(() => JoinRoom(room.RoomId))">Join Room</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr />
+    }
 }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Name</th>
-            <th>MAX/CUR</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var room in GetAllRoom())
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadRoomList();
+
+        // Initialize the SignalR connection
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/roomHub"))
+            .Build();
+
+        // Subscribe to the "ReceiveRoomUpdate" event from the server
+        hubConnection.On("ReceiveRoomUpdate", async () =>
         {
-            <tr>
-                <td>@room.DateCreated.ToShortDateString()</td>
-                <td>@room.RoomName</td>
-                <td>
-                    @if (room.MaxPlayerCount > room.CurrentPlayerCount)
-                    {
-                        <span style="color: green">
-                            @room.CurrentPlayerCount.ToString() / @room.MaxPlayerCount.ToString() 
-                        </span>
-                    }
-                    else
-                    {
-                        <span style="color: red">
-                            @room.CurrentPlayerCount.ToString() / @room.MaxPlayerCount.ToString() 
-                        </span>
-                    }
+            Console.WriteLine("Room update received! - " +currentUser.UserName);
+            await LoadRoomList(); // Reload the room list when an update is received
+            Console.WriteLine($"Loaded rooms for {currentUser.UserName}: " + string.Join(", ", rooms.Select(r => r.RoomName)));
+            StateHasChanged();    // Trigger UI refresh
+        });
 
-                </td>
-                <td>
-                    @if (room.MaxPlayerCount > room.CurrentPlayerCount)
-                    {
-                        <button type="button" class="btn btn-primary">Join Room</button>
-                    }
-                </td>
-            </tr>
+        try
+        {
+            await hubConnection.StartAsync();
         }
-    </tbody>
-</table>
-<hr />
-<div style="display: flex; justify-content:space-around">
-    <div>
-        <FieldComponent FieldModel="@fieldA" />
-    </div>
-    <div>
-        <FieldComponent FieldModel="@fieldB" />
-    </div>
+        catch (Exception ex)
+        {
+            Console.WriteLine($"SignalR connection error: {ex.Message}");
+        }
+    }
 
-</div>
-<div style="display: flex; justify-content:space-around">
-    <div>
-        <FieldBuildingComponent FieldModel="@fieldA" />
-    </div>
-</div>
+    private async Task LoadRoomList()
+    {
+        rooms = RoomService.GetAllRooms().ToList();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
+
+    private async Task JoinRoom(string roomId)
+    {
+        var connectionId = hubConnection?.ConnectionId;
+        if (!string.IsNullOrEmpty(connectionId))
+        {
+            var success = await RoomService.JoinRoom(roomId, currentUser, connectionId);
+            if (success)
+            {
+                NavigationManager.NavigateTo($"/room/{roomId}");
+            }
+            else
+            {
+                ToastService.ShowError("Room is full!");
+            }
+        }
+    }
+
+    private void SetUser(string name)
+    {
+        currentUser = new User(name);
+        isUserJoined = true;
+        UserState.SetUser(new User(playerName));
+    }
+
+    private async Task CreateRoom()
+    {
+        RoomService.CreateRoom("testas2");
+        await LoadRoomList();
+        StateHasChanged();
+    }
+    private async Task ReloadRoomList()
+    {
+        await LoadRoomList();
+    }
+
+    private void OpenNewTab()
+    {
+        var url = NavigationManager.Uri;
+        var script = $"openNewTab('{url}');";
+
+        _ = JSRuntime.InvokeVoidAsync("eval", script);
+    }
+}
