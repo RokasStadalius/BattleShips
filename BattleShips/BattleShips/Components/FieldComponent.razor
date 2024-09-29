@@ -1,4 +1,8 @@
 ﻿@using BattleShips.Models;
+@using BattleShips.Services
+@inject RoomService RoomService
+@inject Blazored.Toast.Services.IToastService ToastService
+@using Microsoft.AspNetCore.SignalR.Client
 
 <h1>@FieldModel.Name</h1>
 <div class="field-container">
@@ -39,18 +43,29 @@
     public Field FieldModel { get; set; }
     [Parameter]
     public bool ShowFieldShips { get; set; }
+    [Parameter]
+    public bool Enabled { get; set; } = true;
     private FieldCell? hoveredCell;
 
     private void CellClicked(FieldCell cell)
     {
-        cell.IsShot = true;
         if (cell.CellShip != null)
         {
-            //Pataiki i laiva
+            Console.WriteLine("Pataikei į laivą " + Enabled);
         }
         else
         {
-            //kito zaidejo ejimas
+            if (Enabled)
+            {
+                cell.IsShot = true;
+                RoomService.ChangeTurn();
+                Console.WriteLine("Nepataikei į laivą " + Enabled);
+
+            }
+            else
+            {
+                ToastService.ShowError("Ne tavo ėjimas!");
+            }
         }
     }
 

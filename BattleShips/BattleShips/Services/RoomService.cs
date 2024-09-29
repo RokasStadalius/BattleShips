@@ -32,5 +32,12 @@ namespace BattleShips.Services
         {
             _hubContext.Clients.All.SendAsync("GameStarted");
         }
+
+        public void ChangeTurn()
+        {   
+            _hubContext.Clients.All.SendAsync("ChangeTurn");
+        }
+
+
     }
 }

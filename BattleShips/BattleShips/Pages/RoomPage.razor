@@ -51,6 +51,18 @@
         {
             fieldA = field;
             fieldB = currentRoom.UserFields.Where(n => n.Item2.UserId != UserState.CurrentUser.UserId).FirstOrDefault().Item1;
+            currentRoom.CurrentUserTurnID = currentRoom.UserFields.Where(n => n.Item2.UserId == UserState.CurrentUser.UserId).FirstOrDefault().Item2.UserId;
+            InvokeAsync(StateHasChanged);
+        });
+
+        hubConnection.On("ChangeTurn", () =>
+        {
+            currentRoom.ChangeTurn();
+            Console.WriteLine($"Naudotojo pasikeitimas {UserState.CurrentUser.UserName}: {currentRoom.CurrentUserTurnID}");
+            if (IsItYourTurn())
+            {
+                ToastService.ShowSuccess("Tavo ejimas!");
+            }
             InvokeAsync(StateHasChanged);
         });
     }
@@ -62,6 +74,11 @@
         if (currentRoom.IsGameStarted)
             RoomService.StartRoomGame(currentRoom);
 
+    }
+
+    private bool IsItYourTurn()
+    {
+        return UserState.CurrentUser.UserId == currentRoom.CurrentUserTurnID;
     }
 }
 
@@ -76,18 +93,19 @@ else
 {
     @if (currentRoom.IsGameStarted)
     {
-        <div style="display: flex; justify-content:center">
+        <div style="display: flex; justify-content:center"> 
             <div>
                 @if(@fieldA != null)
                 {
-                    <FieldComponent FieldModel="@fieldA" ShowFieldShips="true" />
+                    <FieldComponent FieldModel="@fieldA" ShowFieldShips="true" Enabled="!IsItYourTurn()" />
+
                 }
                 
             </div>
             <div>
                 @if (fieldB != null)
                 {
-                    <FieldComponent FieldModel="@fieldB" ShowFieldShips="false" />
+                    <FieldComponent FieldModel="@fieldB" ShowFieldShips="false" Enabled="!IsItYourTurn()"/>
                 }
             </div>
         </div>

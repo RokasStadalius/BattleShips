@@ -17,6 +17,8 @@ namespace BattleShips.Models
         public bool IsGameStarted = false;
         public bool IsFull => UserFields.Count >= MaxPlayerCount;
 
+        public string CurrentUserTurnID { get; set; }
+
         public Room(string roomName)
         {
             RoomId = Guid.NewGuid().ToString();
@@ -39,6 +41,14 @@ namespace BattleShips.Models
                 IsGameStarted = true; // All players are ready
             }
         }
+
+        public void ChangeTurn()
+        {
+            var currentIndex = UserFields.FindIndex(u => u.Item2.UserId == CurrentUserTurnID);
+            var nextIndex = (currentIndex + 1) % MaxPlayerCount; // Alternate turns
+            CurrentUserTurnID = UserFields[nextIndex].Item2.UserId;
+        }
     }
+
 
 }
