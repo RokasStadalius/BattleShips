@@ -1,4 +1,5 @@
 ﻿@using BattleShips.Models;
+@inject IJSRuntime JSRuntime
 @inject Blazored.Toast.Services.IToastService ToastService
 
 @code {
@@ -11,19 +12,23 @@
     };
 }
 
-
-
 <div class="ship-container">
     @foreach (var ship in ships)
     {
-        <div class="ship" draggable="true" @ondragstart="(e => OnDragStart(e, ship))" style="width:@(ship.Length * 50 + 50)px">
-            @ship.ShipName (@ship.Length) 
+        var innerShip = ship;
+        <p>@innerShip.ShipName, count: @(innerShip.MaxPlacementCount - FieldModel.GetShipCountInMap(innerShip.ShipTypeID))</p>
+
+        <div class="ship" draggable="true" @ondragstart="(e => OnDragStart(e, ship))" style="display: flex; justify-content: center; flex-direction:@(innerShip?.IsVertical == true ? "column" : "row");">
+            @for(int i = 0; i < ship.Length; i++)
+            {
+                <div class="ship-cell" style="width: 25px; height: 25px; background-color: green; margin: 2px;"></div>
+            }
         </div>
     }
 </div>
 
 
-<h1>@FieldModel.Name</h1>
+<h1 class="field-name-header">@FieldModel.Name</h1>
 <div class="field-container">
     <div class="row">
         <div class="cell header-cell"></div>
@@ -63,6 +68,15 @@
     private Ship draggedShip;
     private FieldCell hoveredCell;
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Register JS key listener for 'R' key
+            await JSRuntime.InvokeVoidAsync("listenForKeyPress", DotNetObjectReference.Create(this));
+        }
+    }
+
     private void OnDragStart(DragEventArgs e, Ship ship)
     {
         draggedShip = ship;
@@ -91,5 +105,15 @@
             draggedShip = null;
             hoveredCell = null;
         }
+    }
+
+    [JSInvokable]
+    public void RotateShip()
+    {
+        foreach(var ship in ships)
+        {
+            ship.IsVertical = !ship.IsVertical;
+        }
+        StateHasChanged();
     }
 }

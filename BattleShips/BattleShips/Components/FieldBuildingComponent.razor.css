@@ -1,6 +1,13 @@
 ﻿.field-container {
+    justify-content: center;
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+.field-name-header {
+    width: 100%;
+    text-align: center;
 }
 
 .row {
@@ -29,6 +36,8 @@
 
 .ship-container {
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: row;
 }
 
 .ship {

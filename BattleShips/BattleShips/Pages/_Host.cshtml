@@ -8,5 +8,16 @@
     function openNewTab(url) {
         window.open(url, '_blank');
     }
+
+    window.listenForKeyPress = function (dotNetRef) {
+        // Listen to the window object to capture the 'R' key event during drag
+        window.addEventListener('keydown', function (event) {
+            if (event.key === 'r' || event.key === 'R') {
+                // Call the Blazor method to rotate the ship
+                dotNetRef.invokeMethodAsync('RotateShip');
+                console.log("paspausta");
+            }
+        });
+    };
 </script>
 <component type="typeof(App)" render-mode="ServerPrerendered" />
