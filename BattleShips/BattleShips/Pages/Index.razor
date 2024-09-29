@@ -14,12 +14,6 @@
 @using BattleShips.Services;
 @using Microsoft.AspNetCore.SignalR.Client;
 
-<script>
-    function openNewTab(url) {
-        window.open(url, '_blank');
-    }
-</script>
-
 @code {
     private List<Room> rooms = new List<Room>();
     private HubConnection? hubConnection;
@@ -46,7 +40,7 @@ else
         <button type="button" class="btn btn-secondary" @onclick="@(() => ReloadRoomList())">Reload Room List</button>
         <button type="button" class="btn btn-secondary" @onclick="@(() => OpenNewTab())">New user</button>
     </div>
-
+    
     @if (rooms is not null)
     {
         <h3>Available Rooms</h3>
@@ -154,9 +148,16 @@ else
 
     private void SetUser(string name)
     {
-        currentUser = new User(name);
-        isUserJoined = true;
-        UserState.SetUser(new User(playerName));
+        if(!String.IsNullOrEmpty(name))
+        {
+            currentUser = new User(name);
+            isUserJoined = true;
+            UserState.SetUser(new User(playerName));
+        }
+        else
+        {
+            ToastService.ShowError("Please, enter a username");
+        }
     }
 
     private async Task CreateRoom()

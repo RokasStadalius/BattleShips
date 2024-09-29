@@ -6,6 +6,7 @@
         public int RowIndex { get; set; }
         public Ship? CellShip { get; set; }
         public bool IsShot { get; set; }
+        public bool IsAdjacent { get; set; }
 
         private string color_Water = "rgb(79, 240, 202)";
         private string color_Water_Hit = "rgb(42, 0, 148)";
@@ -27,7 +28,6 @@
                     return color_Ship;
                 else
                     return color_Water;
-
             }
         }
     }

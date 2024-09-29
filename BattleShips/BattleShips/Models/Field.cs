@@ -48,7 +48,8 @@ namespace BattleShips.Models
                 //Tikrinam ar laivu pakeliu nera
                 for (int i = 0; i < ship.Length; i++)
                 {
-                    if (MapLayout[beginingCell.RowIndex + i][beginingCell.ColIndex].CellShip != null)
+                    if (MapLayout[beginingCell.RowIndex + i][beginingCell.ColIndex].CellShip != null ||
+                        MapLayout[beginingCell.RowIndex + i][beginingCell.ColIndex].IsAdjacent)
                         return false;
                 }
             }
@@ -60,7 +61,8 @@ namespace BattleShips.Models
                 //Tikrinam ar laivu pakeliu nera
                 for (int i = 0; i < ship.Length; i++)
                 {
-                    if (MapLayout[beginingCell.RowIndex][beginingCell.ColIndex + i].CellShip != null)
+                    if (MapLayout[beginingCell.RowIndex][beginingCell.ColIndex + i].CellShip != null ||
+                        MapLayout[beginingCell.RowIndex][beginingCell.ColIndex + i].IsAdjacent)
                         return false;
                     
                 }
@@ -82,18 +84,44 @@ namespace BattleShips.Models
             {
                 for (int i = 0; i < ship.Length; i++)
                 {
-                    MapLayout[beginingCell.RowIndex + i][beginingCell.ColIndex].CellShip = ship;
+                    //MapLayout[beginingCell.RowIndex + i][beginingCell.ColIndex].CellShip = ship;
+                    AddInitialShipCell(beginingCell.RowIndex + i, beginingCell.ColIndex, ship);
                 }
             }
             else
             {
                 for (int i = 0; i < ship.Length; i++)
                 {
-                    MapLayout[beginingCell.RowIndex][beginingCell.ColIndex + i].CellShip = ship;
+                    //MapLayout[beginingCell.RowIndex][beginingCell.ColIndex + i].CellShip = ship;
+                    AddInitialShipCell(beginingCell.RowIndex, beginingCell.ColIndex + i, ship);
                 }
             }
         }
-        private List<Ship> GetShipData()
+
+        private void AddInitialShipCell (int rowIndex, int colIndex, Ship ship)
+        {
+            MapLayout[rowIndex][colIndex].CellShip = ship;
+            SetAdjacentCell(rowIndex, colIndex - 1);
+            SetAdjacentCell(rowIndex - 1, colIndex - 1);
+            SetAdjacentCell(rowIndex - 1, colIndex);
+            SetAdjacentCell(rowIndex - 1, colIndex + 1);
+            SetAdjacentCell(rowIndex, colIndex + 1);
+            SetAdjacentCell(rowIndex + 1, colIndex + 1);
+            SetAdjacentCell(rowIndex + 1 , colIndex);
+            SetAdjacentCell(rowIndex + 1, colIndex - 1);
+        }
+
+        private void SetAdjacentCell(int rowIndex, int colIndex)
+        {
+            try
+            {
+                if (MapLayout[rowIndex][colIndex].CellShip == null)
+                    MapLayout[rowIndex][colIndex].IsAdjacent = true;
+            }
+            catch { }
+        }
+
+        private List<Ship>? GetShipData()
         {
             List<Ship> shipList = new List<Ship>();
             for (int i = 0; i < MapLayout.Length; i++)
