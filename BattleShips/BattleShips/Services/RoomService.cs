@@ -33,9 +33,20 @@ namespace BattleShips.Services
             _hubContext.Clients.All.SendAsync("GameStarted");
         }
 
-        public void ChangeTurn()
+        public void ChangeTurn(string roomID)
         {   
+            var room = GetRoomById(roomID);
+            room.ChangeTurn();
             _hubContext.Clients.All.SendAsync("ChangeTurn");
+        }
+        public void EndGame(string roomID)
+        {
+            _hubContext.Clients.All.SendAsync("EndGame");
+        }
+        public bool RemoveRoom(string roomID)
+        {
+            var room = GetRoomById(roomID);
+            return Rooms.Remove(room);
         }
 
 

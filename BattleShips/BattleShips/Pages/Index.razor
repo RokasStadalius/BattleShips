@@ -88,6 +88,11 @@ else
 @code {
     protected override async Task OnInitializedAsync()
     {
+        if (UserState.CurrentUser != null)
+        {
+            currentUser = UserState.CurrentUser;
+            isUserJoined = true;
+        }
         await LoadRoomList();
 
         hubConnection = new HubConnectionBuilder()

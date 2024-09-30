@@ -161,5 +161,20 @@ namespace BattleShips.Models
             else
                 return 0;
         }
+        public bool IsOutOfShips()
+        {
+            for (int i = 0; i < MapLayout.Length; i++)
+            {
+                for (int j = 0; j < MapLayout[i].Length; j++)
+                {
+                    FieldCell cell = MapLayout[i][j];
+                    if (cell.CellShip != null && !cell.IsShot)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
     }
 }

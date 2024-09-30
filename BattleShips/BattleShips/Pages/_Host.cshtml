@@ -4,6 +4,9 @@
 @{
     Layout = "_Layout";
 }
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <script defer>
     function openNewTab(url) {
         window.open(url, '_blank');
@@ -19,5 +22,10 @@
             }
         });
     };
+
+    function showWinnerModal() {
+        // Use Bootstrap's JavaScript to show the modal
+        $('#winnerModal').modal('show');
+    }
 </script>
 <component type="typeof(App)" render-mode="ServerPrerendered" />

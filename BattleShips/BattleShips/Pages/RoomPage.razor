@@ -51,19 +51,30 @@
         {
             fieldA = field;
             fieldB = currentRoom.UserFields.Where(n => n.Item2.UserId != UserState.CurrentUser.UserId).FirstOrDefault().Item1;
-            currentRoom.CurrentUserTurnID = currentRoom.UserFields.Where(n => n.Item2.UserId == UserState.CurrentUser.UserId).FirstOrDefault().Item2.UserId;
+            currentRoom.CurrentUserTurnID = currentRoom.UserFields[0].Item2.UserId;
             InvokeAsync(StateHasChanged);
         });
 
         hubConnection.On("ChangeTurn", () =>
         {
-            currentRoom.ChangeTurn();
+            currentRoom = RoomService.GetRoomById(RoomId);
+
             Console.WriteLine($"Naudotojo pasikeitimas {UserState.CurrentUser.UserName}: {currentRoom.CurrentUserTurnID}");
             if (IsItYourTurn())
             {
                 ToastService.ShowSuccess("Tavo ejimas!");
             }
             InvokeAsync(StateHasChanged);
+        });
+
+        hubConnection.On("EndGame", () =>
+        {
+            currentRoom = RoomService.GetRoomById(RoomId);
+            // Use JavaScript to show the modal
+            InvokeAsync(StateHasChanged);
+            JSRuntime.InvokeVoidAsync("showWinnerModal");
+            RoomService.RemoveRoom(currentRoom.RoomId);
+            NavigationManager.NavigateTo($"/");
         });
     }
 
@@ -80,10 +91,27 @@
     {
         return UserState.CurrentUser.UserId == currentRoom.CurrentUserTurnID;
     }
+    private User? getUserCurrentPlayer()
+    {
+        try
+        {
+            return currentRoom.UserFields.Where(n => n.Item2.UserId == currentRoom.CurrentUserTurnID).FirstOrDefault().Item2;
+        }
+        catch
+        {
+            return null;
+        }
+
+    }
 }
 
 <h2>@UserState.CurrentUser?.UserName</h2>
 <h3>Welcome to Room @currentRoom?.RoomName</h3>
+
+@if(getUserCurrentPlayer() != null)
+{
+    <b>@getUserCurrentPlayer().UserName </b>
+}
 
 @if (currentRoom == null)
 {
@@ -97,7 +125,7 @@ else
             <div>
                 @if(@fieldA != null)
                 {
-                    <FieldComponent FieldModel="@fieldA" ShowFieldShips="true" Enabled="!IsItYourTurn()" />
+                    <FieldComponent FieldModel="@fieldA" ShowFieldShips="true" Enabled="false" RoomID="@currentRoom.RoomId" />
 
                 }
                 
@@ -105,7 +133,7 @@ else
             <div>
                 @if (fieldB != null)
                 {
-                    <FieldComponent FieldModel="@fieldB" ShowFieldShips="false" Enabled="!IsItYourTurn()"/>
+                    <FieldComponent FieldModel="@fieldB" ShowFieldShips="false" Enabled="IsItYourTurn()" RoomID="@currentRoom.RoomId" />
                 }
             </div>
         </div>
@@ -129,3 +157,28 @@ else
         </div>
     }
 }
+
+
+<div class="modal fade" id="winnerModal" tabindex="-1" role="dialog" aria-labelledby="winnerModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="winnerModalLabel">Game Over</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Winner: 
+                    @if (getUserCurrentPlayer() != null)
+                    {
+                        <b>@getUserCurrentPlayer().UserName </b>
+                    }
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
