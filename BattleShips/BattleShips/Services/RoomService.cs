@@ -17,13 +17,26 @@ namespace BattleShips.Services
 
         public Room GetRoomById(string roomId) => Rooms.FirstOrDefault(r => r.RoomId == roomId);
 
-        public void CreateRoom(string roomName)
+        public void CreateRoomStandart(string roomName)
         {
-            var room = new Room(roomName);
+            var room = new Room(roomName, "standart");
             Rooms.Add(room);
             RefreshRoomList();
         }
 
+        public void CreateRoomMedium(string roomName)
+        {
+            var room = new Room(roomName, "medium");
+            Rooms.Add(room);
+            RefreshRoomList();
+        }
+
+        public void CreateRoomAdvanced(string roomName)
+        {
+            var room = new Room(roomName, "advanced");
+            Rooms.Add(room);
+            RefreshRoomList();
+        }
         public void RefreshRoomList()
         {
             _hubContext.Clients.All.SendAsync("ReceiveRoomUpdate");

@@ -35,7 +35,9 @@ else
 {
     <h1>Welcome, @currentUser.UserName</h1>
     <div>
-        <button type="button" class="btn btn-primary" @onclick="@(() => CreateRoom())">Create Room</button>
+        <button type="button" class="btn btn-primary" @onclick="@(() => CreateRoomStandart())">Create Standart Room</button>
+        <button type="button" class="btn btn-primary" @onclick="@(() => CreateRoomMedium())">Create Medium Room</button>
+        <button type="button" class="btn btn-primary" @onclick="@(() => CreateRoomAdvanced())">Create Advanced Room</button>
         <button type="button" class="btn btn-secondary" @onclick="@(() => OpenNewTab())">New user</button>
     </div>
 
@@ -150,9 +152,21 @@ else
         }
     }
 
-    private async Task CreateRoom()
+    private async Task CreateRoomStandart()
     {
-        RoomService.CreateRoom("Room_" + UserState.CurrentUser.UserName);
+        RoomService.CreateRoomStandart("Standart_Room_" + UserState.CurrentUser.UserName);
+        await LoadRoomList();
+    }
+
+    private async Task CreateRoomMedium()
+    {
+        RoomService.CreateRoomMedium("Medium_Room_" + UserState.CurrentUser.UserName);
+        await LoadRoomList();
+    }
+
+    private async Task CreateRoomAdvanced()
+    {
+        RoomService.CreateRoomAdvanced("Advanced_Room_" + UserState.CurrentUser.UserName);
         await LoadRoomList();
     }
 

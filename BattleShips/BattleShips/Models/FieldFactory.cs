@@ -10,7 +10,7 @@
         public Field CreateField(string name) => new MediumField(name);
     }
 
-    public class AdvacedFieldFactory : IField
+    public class AdvancedFieldFactory : IField
     {
         public Field CreateField(string name) => new AdvancedField(name);
     }
