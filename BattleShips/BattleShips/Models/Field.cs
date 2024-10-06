@@ -177,4 +177,19 @@ namespace BattleShips.Models
             return true;
         }
     }
+
+    public class StandartField : Field
+    {
+        public StandartField(string name) : base(name, 10, 10) { }
+    }
+
+    public class MediumField : Field
+    {
+        public MediumField(string name) : base(name, 15, 15) { }
+    }
+
+    public class AdvancedField : Field
+    {
+        public AdvancedField(string name) : base(name, 20, 20) { }
+    }
 }
