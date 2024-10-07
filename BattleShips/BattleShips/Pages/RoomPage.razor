@@ -19,6 +19,8 @@
     private Field fieldA; // For ships building
     private Field fieldB; // For ships building
 
+    IField factory;
+
     protected override async Task OnInitializedAsync()
     {
         currentRoom = RoomService.GetRoomById(RoomId);
@@ -29,7 +31,25 @@
             return;
         }
 
-        field = new Field("Field_" + currentRoom.RoomName, 10, 10);
+        string fieldType = currentRoom.RoomType;
+
+        switch (fieldType)
+        {
+            case "standart":
+                factory = new StandartFieldFactory();
+                break;
+            case "medium":
+                factory = new MediumFieldFactory();
+                break;
+            case "advanced":
+                factory = new AdvancedFieldFactory();
+                break;
+            default:
+                throw new ArgumentException("Invalid field type");
+        }
+
+
+        field = factory.CreateField("Field_" + currentRoom.RoomName);
         currentRoom.UserFields.Add(new Tuple<Field, User,bool>(field, UserState.CurrentUser,false));
         RoomService.RefreshRoomList();
         if (currentRoom.CurrentPlayerCount == currentRoom.MaxPlayerCount)

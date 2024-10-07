@@ -19,12 +19,15 @@ namespace BattleShips.Models
 
         public string CurrentUserTurnID { get; set; }
 
-        public Room(string roomName)
+        public string RoomType { get; set; }
+
+        public Room(string roomName, string roomType)
         {
             RoomId = Guid.NewGuid().ToString();
             RoomName = roomName;
             IsGameStarted = false;
             DateCreated = DateTime.Now;
+            RoomType = roomType;
         }
 
         public void SetPlayerReady(string userId)
