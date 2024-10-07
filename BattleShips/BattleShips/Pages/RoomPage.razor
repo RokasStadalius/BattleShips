@@ -121,7 +121,7 @@ else
 {
     @if (currentRoom.IsGameStarted)
     {
-        <div style="display: flex; justify-content:center"> 
+        <div style="display: flex; justify-content:center">
             <div>
                 @if(@fieldA != null)
                 {
@@ -130,7 +130,7 @@ else
                 }
                 
             </div>
-            <div>
+            <div style="margin-left: 30px;">
                 @if (fieldB != null)
                 {
                     <FieldComponent FieldModel="@fieldB" ShowFieldShips="false" Enabled="IsItYourTurn()" RoomID="@currentRoom.RoomId" />
