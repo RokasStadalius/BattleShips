@@ -77,8 +77,8 @@ namespace BattleShips.Models
             {
                 throw new InvalidOperationException("Neina laiva padet!!!");
             }
-            Ship ship = new Ship();
-            ship = shipFromList.MakeCopy(ship);
+            Ship ship;
+            ship = shipFromList.MakeCopy();
             ship.ShipID = GeneratyeIDForShip();
             if (ship.IsVertical)
             {

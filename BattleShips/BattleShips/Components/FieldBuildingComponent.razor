@@ -3,30 +3,62 @@
 @inject Blazored.Toast.Services.IToastService ToastService
 
 @code {
-    private List<Ship> ships = new List<Ship>
+    private IShipFactory naziShipFactory = new NaziShipFactory();
+    private IShipFactory sovietShipFactory = new SovietShipFactory();
+    private List<Ship> Naziships;
+    private List<Ship> Sovietships;
+
+    [Parameter]
+    public int PlayerID { get; set; } // PlayerID: 1 for Nazi, 2 for Soviet
+
+    private List<Ship> CurrentPlayerShips;
+
+    protected override void OnInitialized()
     {
-        new Ship {ShipID=-1,ShipTypeID=1,MaxPlacementCount=4, ShipName = "Destroyer", Length = 2 },
-        new Ship {ShipID=-1,ShipTypeID=2,MaxPlacementCount=2, ShipName = "Submarine", Length = 3 },
-        new Ship {ShipID=-1,ShipTypeID=3,MaxPlacementCount=1, ShipName = "Battleship", Length = 4 },
-        new Ship {ShipID=-1,ShipTypeID=4,MaxPlacementCount=1, ShipName = "Carrier", Length = 5 }
-    };
+        // Initialize Nazi ships using the Nazi factory
+        Naziships = new List<Ship>
+        {
+            naziShipFactory.CreateDestroyer(1,1, "Nazi Destroyer"),
+            naziShipFactory.CreateSubmarine(1,2, "Nazi Submarine"),
+            naziShipFactory.CreateBattleship(1,3, "Nazi Battleship"),
+            naziShipFactory.CreateCarrier(1,4, "Nazi Carrier")
+        };
+
+        // Initialize Soviet ships using the Soviet factory
+        Sovietships = new List<Ship>
+        {
+            sovietShipFactory.CreateDestroyer(1,1, "Soviet Destroyer"),
+            sovietShipFactory.CreateSubmarine(1,2, "Soviet Submarine"),
+            sovietShipFactory.CreateBattleship(1,3, "Soviet Battleship"),
+            sovietShipFactory.CreateCarrier(1,4, "Soviet Carrier")
+        };
+
+        // Determine which ships to show based on PlayerID
+        if (PlayerID == 1)
+        {
+            CurrentPlayerShips = Naziships;
+        }
+        else if (PlayerID == 2)
+        {
+            CurrentPlayerShips = Sovietships;
+        }
+    }
 }
 
 <div class="ship-container">
-    @foreach (var ship in ships)
+    @foreach (var ship in CurrentPlayerShips)
     {
         var innerShip = ship;
         <p>@innerShip.ShipName, count: @(innerShip.MaxPlacementCount - FieldModel.GetShipCountInMap(innerShip.ShipTypeID))</p>
 
         <div class="ship" draggable="true" @ondragstart="(e => OnDragStart(e, ship))" style="display: flex; justify-content: center; flex-direction:@(innerShip?.IsVertical == true ? "column" : "row");">
-            @for(int i = 0; i < ship.Length; i++)
+            @for (int i = 0; i < ship.Length; i++)
             {
                 <div class="ship-cell" style="width: 25px; height: 25px; background-color: green; margin: 2px;"></div>
             }
         </div>
     }
 </div>
-
 
 <h1 class="field-name-header">@FieldModel.Name</h1>
 <div class="field-container">
@@ -50,11 +82,10 @@
                 FieldCell innerCell = FieldModel.MapLayout[row][col];
 
                 <div class="cell"
-                    @ondragover:preventDefault="true"
-                    @ondragover="@(e => OnDragOver(innerCell))"
-                    @ondrop="@(e => OnDrop(innerCell))">
+                     @ondragover:preventDefault="true"
+                     @ondragover="@(e => OnDragOver(innerCell))"
+                     @ondrop="@(e => OnDrop(innerCell))">
                     <button class="cell-button" style="background-color:@(innerCell.GetCellColorState(true));">
-                        
                     </button>
                 </div>
             }
@@ -110,7 +141,8 @@
     [JSInvokable]
     public void RotateShip()
     {
-        foreach(var ship in ships)
+        // Rotate Nazi and Soviet ships
+        foreach (var ship in Naziships.Concat(Sovietships))
         {
             ship.IsVertical = !ship.IsVertical;
         }

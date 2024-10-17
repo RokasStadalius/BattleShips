@@ -18,6 +18,7 @@
 
     private Field fieldA; // For ships building
     private Field fieldB; // For ships building
+    private int PlayerID;
 
     IField factory;
 
@@ -50,6 +51,7 @@
 
 
         field = factory.CreateField("Field_" + currentRoom.RoomName);
+        PlayerID = currentRoom.UserFields.Count + 1;
         currentRoom.UserFields.Add(new Tuple<Field, User,bool>(field, UserState.CurrentUser,false));
         RoomService.RefreshRoomList();
         if (currentRoom.CurrentPlayerCount == currentRoom.MaxPlayerCount)
@@ -162,7 +164,7 @@ else
     {
         <div style="display: flex; justify-content:center">
             <div>
-                <FieldBuildingComponent FieldModel="@field" />
+                <FieldBuildingComponent FieldModel="@field" PlayerID="@PlayerID"/>
             </div>
         </div>
         <div>

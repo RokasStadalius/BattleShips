@@ -1,6 +1,6 @@
 ﻿namespace BattleShips.Models
 {
-    public class Ship
+    public abstract class Ship
     {
         public int ShipID { get; set; }
         public int ShipTypeID { get; set; }
@@ -12,15 +12,6 @@
         {
 
         }
-        public Ship MakeCopy(Ship ship)
-        {
-            ship.ShipID = this.ShipID;
-            ship.ShipTypeID = this.ShipTypeID;
-            ship.MaxPlacementCount = this.MaxPlacementCount;
-            ship.ShipName = this.ShipName;
-            ship.Length = this.Length;
-            ship.IsVertical = this.IsVertical;
-            return ship;
-        }
+        public abstract Ship MakeCopy();
     }
 }
