@@ -1,0 +1,34 @@
+﻿.console-container {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.toggle-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.console-log {
+    overflow-y: auto;
+    max-height: 150px;
+    transition: max-height 0.5s ease-in-out;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+    .console-log.retracted {
+        max-height: 0;
+        padding: 0;
+        visibility: hidden;
+    }
+
+    .console-log.expanded {
+        max-height: 300px;
+        visibility: visible;
+    }

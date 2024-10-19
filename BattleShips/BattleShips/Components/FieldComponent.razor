@@ -53,10 +53,10 @@
     {
         if (Enabled)
         {
-            cell.IsShot = true;
+            FieldModel.FireAtCell(cell);
+            
             if (cell.CellShip != null)
             {
-                Console.WriteLine("Pataikei į laivą " + Enabled);   
                 if (FieldModel.IsOutOfShips())
                 {
                     RoomService.EndGame("");

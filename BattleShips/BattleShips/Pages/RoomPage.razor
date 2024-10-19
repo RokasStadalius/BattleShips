@@ -19,6 +19,9 @@
     private Field fieldA; // For ships building
     private Field fieldB; // For ships building
     private int PlayerID;
+    FieldUI fieldUI; //Console Log for players
+    private bool isConsoleExpanded = false;
+    private string consoleState => isConsoleExpanded ? "expanded" : "retracted";
 
     IField factory;
 
@@ -26,12 +29,39 @@
     {
         currentRoom = RoomService.GetRoomById(RoomId);
 
+        if (!ValdiateRoom()) //Patikrinam del visa pikto ar KAMBARYS VALIDUS 
+            return;
+
+        fieldUI = new FieldUI();
+        fieldUI.OnLogUpdated += async () => await InvokeAsync(StateHasChanged);
+
+        SetUpFactoryAndRooms();
+        SendRoomMessage();
+        SignalRActions();
+
+    }
+    private bool ValdiateRoom()
+    {
         if (currentRoom == null)
         {
             ToastService.ShowError("Room not found!");
-            return;
+            return false;
         }
-
+        return true;
+    }
+    private void SendRoomMessage()
+    {
+        if (currentRoom.CurrentPlayerCount == currentRoom.MaxPlayerCount)
+        {
+            ToastService.ShowSuccess("All Players are here!");
+        }
+        else
+        {
+            ToastService.ShowError("Waiting for players");
+        }
+    }
+    private void SetUpFactoryAndRooms()
+    {
         string fieldType = currentRoom.RoomType;
 
         switch (fieldType)
@@ -49,20 +79,13 @@
                 throw new ArgumentException("Invalid field type");
         }
 
-
         field = factory.CreateField("Field_" + currentRoom.RoomName);
         PlayerID = currentRoom.UserFields.Count + 1;
-        currentRoom.UserFields.Add(new Tuple<Field, User,bool>(field, UserState.CurrentUser,false));
+        currentRoom.UserFields.Add(new Tuple<Field, User, bool>(field, UserState.CurrentUser, false));
         RoomService.RefreshRoomList();
-        if (currentRoom.CurrentPlayerCount == currentRoom.MaxPlayerCount)
-        {
-            ToastService.ShowSuccess("All Players are here!");
-        }
-        else
-        {
-            ToastService.ShowError("Waiting for players");
-        }
-
+    }
+    private async void SignalRActions()
+    {
         hubConnection = new HubConnectionBuilder()
             .WithUrl(NavigationManager.ToAbsoluteUri("/roomhub"))
             .Build();
@@ -73,6 +96,10 @@
         {
             fieldA = field;
             fieldB = currentRoom.UserFields.Where(n => n.Item2.UserId != UserState.CurrentUser.UserId).FirstOrDefault().Item1;
+
+            fieldA.RegisterObserver(fieldUI);
+            fieldB.RegisterObserver(fieldUI);
+
             currentRoom.CurrentUserTurnID = currentRoom.UserFields[0].Item2.UserId;
             InvokeAsync(StateHasChanged);
         });
@@ -100,15 +127,6 @@
         });
     }
 
-    private void ReadyClicked()
-    {
-        field.IsReadyToPlay = true;
-        currentRoom.SetPlayerReady(UserState.CurrentUser.UserId);
-        if (currentRoom.IsGameStarted)
-            RoomService.StartRoomGame(currentRoom);
-
-    }
-
     private bool IsItYourTurn()
     {
         return UserState.CurrentUser.UserId == currentRoom.CurrentUserTurnID;
@@ -125,6 +143,20 @@
         }
 
     }
+
+    private void ReadyClicked()
+    {
+        field.IsReadyToPlay = true;
+        currentRoom.SetPlayerReady(UserState.CurrentUser.UserId);
+        if (currentRoom.IsGameStarted)
+            RoomService.StartRoomGame(currentRoom);
+
+    }
+    private void ToggleConsole()
+    {
+        isConsoleExpanded = !isConsoleExpanded;
+    }
+    
 }
 
 <h2>@UserState.CurrentUser?.UserName</h2>
@@ -181,6 +213,29 @@ else
 }
 
 
+<div class="console-container">
+    <h4>Game Console</h4>
+    <button class="toggle-button" @onclick="ToggleConsole">
+        @if (isConsoleExpanded)
+        {
+            <span>Retract</span>
+        }
+        else
+        {
+            <span>Expand</span>
+        }
+    </button>
+    <div class="console-log @consoleState" id="consoleLog">
+        @if (fieldUI != null)
+        {
+            @foreach (var message in fieldUI.MessageLog)
+            {
+                <p>@message</p>
+            }
+        }
+    </div>
+</div>
+
 <div class="modal fade" id="winnerModal" tabindex="-1" role="dialog" aria-labelledby="winnerModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -204,3 +259,10 @@ else
         </div>
     </div>
 </div>
+
+<script>
+    function scrollToBottom() {
+        var log = document.getElementById("consoleLog");
+        log.scrollTop = log.scrollHeight;
+    }
+</script>

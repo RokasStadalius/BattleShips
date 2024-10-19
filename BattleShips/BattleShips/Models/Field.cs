@@ -6,11 +6,14 @@ namespace BattleShips.Models
 {
     public class Field
     {
+        #region Parameters
         public FieldCell[][] MapLayout;
         public string Name { get; set; }
         public int Rows { get; set; }
         public int Columns { get; set; }
         public bool IsReadyToPlay { get; set; }
+        private readonly List<IFieldObserver> observers = new List<IFieldObserver>();
+        #endregion
         public Field(string name, int rows, int columns)
         {
             Name = name;
@@ -19,24 +22,83 @@ namespace BattleShips.Models
             IsReadyToPlay = false;
             BuildMap();
         }
-        private void BuildMap()
+
+        #region Subject methods
+
+        public void RegisterObserver(IFieldObserver observer)
         {
-            Random rnd = new Random();
-            MapLayout = new FieldCell[Rows][];
-            for (int i = 0; i < Rows; i++)
+            observers.Add(observer);
+        }
+
+        public void UnregisterObserver(IFieldObserver observer)
+        {
+            observers.Remove(observer);
+        }
+
+        private void NotifyShipPlaced(Ship ship, FieldCell cell)
+        {
+            foreach (var observer in observers)
             {
-                MapLayout[i] = new FieldCell[Columns];
-                for (int j = 0; j < Columns; j++)
+                observer.OnShipPlaced(this, ship, cell);
+            }
+        }
+
+        private void NotifyShotFired(FieldCell cell)
+        {
+            foreach (var observer in observers)
+            {
+                observer.OnShotFired(this, cell);
+            }
+        }
+
+        private void NotifyFieldStateChanged()
+        {
+            foreach (var observer in observers)
+            {
+                observer.OnFieldStateChanged(this);
+            }
+        }
+
+        #endregion
+
+        #region global Map Methods
+        public void FireAtCell(FieldCell cell)
+        {
+            if (!cell.IsShot)
+            {
+                cell.IsShot = true;
+                NotifyShotFired(cell);
+                NotifyFieldStateChanged();
+            }
+        }
+        public void PlaceShipOnMap(Ship shipFromList, FieldCell beginingCell)
+        {
+            if (!CanPlaceShip(shipFromList, beginingCell))
+            {
+                throw new InvalidOperationException("Neina laiva padet!!!");
+            }
+
+            Ship ship;
+            ship = shipFromList.MakeCopy();
+            ship.ShipID = GeneratyeIDForShip();
+            if (ship.IsVertical)
+            {
+                for (int i = 0; i < ship.Length; i++)
                 {
-                    MapLayout[i][j] = new FieldCell
-                    {
-                        RowIndex = i,
-                        ColIndex = j,
-                        CellShip = null,
-                        IsShot = false,
-                    };
+                    AddInitialShipCell(beginingCell.RowIndex + i, beginingCell.ColIndex, ship);
+                    NotifyShipPlaced(ship, MapLayout[beginingCell.RowIndex + i][beginingCell.ColIndex]);
                 }
             }
+            else
+            {
+                for (int i = 0; i < ship.Length; i++)
+                {
+                    AddInitialShipCell(beginingCell.RowIndex, beginingCell.ColIndex + i, ship);
+                    NotifyShipPlaced(ship, MapLayout[beginingCell.RowIndex][beginingCell.ColIndex + i]);
+                }
+            }
+
+            NotifyFieldStateChanged();
         }
         public bool CanPlaceShip(Ship ship, FieldCell beginingCell)
         {
@@ -64,40 +126,56 @@ namespace BattleShips.Models
                     if (MapLayout[beginingCell.RowIndex][beginingCell.ColIndex + i].CellShip != null ||
                         MapLayout[beginingCell.RowIndex][beginingCell.ColIndex + i].IsAdjacent)
                         return false;
-                    
+
                 }
             }
 
             return true;
         }
-
-        public void PlaceShipOnMap(Ship shipFromList, FieldCell beginingCell)
+        public int GetShipCountInMap(int shipTypeID)
         {
-            if (!CanPlaceShip(shipFromList, beginingCell))
+            var list = GetShipData();
+            if (list != null)
+                return list.Where(n => n.ShipTypeID == shipTypeID).Count();
+            else
+                return 0;
+        }
+        public bool IsOutOfShips()
+        {
+            for (int i = 0; i < MapLayout.Length; i++)
             {
-                throw new InvalidOperationException("Neina laiva padet!!!");
-            }
-            Ship ship;
-            ship = shipFromList.MakeCopy();
-            ship.ShipID = GeneratyeIDForShip();
-            if (ship.IsVertical)
-            {
-                for (int i = 0; i < ship.Length; i++)
+                for (int j = 0; j < MapLayout[i].Length; j++)
                 {
-                    //MapLayout[beginingCell.RowIndex + i][beginingCell.ColIndex].CellShip = ship;
-                    AddInitialShipCell(beginingCell.RowIndex + i, beginingCell.ColIndex, ship);
+                    FieldCell cell = MapLayout[i][j];
+                    if (cell.CellShip != null && !cell.IsShot)
+                    {
+                        return false;
+                    }
                 }
             }
-            else
+            return true;
+        }
+        #endregion
+
+        private void BuildMap()
+        {
+            Random rnd = new Random();
+            MapLayout = new FieldCell[Rows][];
+            for (int i = 0; i < Rows; i++)
             {
-                for (int i = 0; i < ship.Length; i++)
+                MapLayout[i] = new FieldCell[Columns];
+                for (int j = 0; j < Columns; j++)
                 {
-                    //MapLayout[beginingCell.RowIndex][beginingCell.ColIndex + i].CellShip = ship;
-                    AddInitialShipCell(beginingCell.RowIndex, beginingCell.ColIndex + i, ship);
+                    MapLayout[i][j] = new FieldCell
+                    {
+                        RowIndex = i,
+                        ColIndex = j,
+                        CellShip = null,
+                        IsShot = false,
+                    };
                 }
             }
         }
-
         private void AddInitialShipCell (int rowIndex, int colIndex, Ship ship)
         {
             MapLayout[rowIndex][colIndex].CellShip = ship;
@@ -110,7 +188,6 @@ namespace BattleShips.Models
             SetAdjacentCell(rowIndex + 1 , colIndex);
             SetAdjacentCell(rowIndex + 1, colIndex - 1);
         }
-
         private void SetAdjacentCell(int rowIndex, int colIndex)
         {
             try
@@ -120,7 +197,6 @@ namespace BattleShips.Models
             }
             catch { }
         }
-
         private List<Ship>? GetShipData()
         {
             List<Ship> shipList = new List<Ship>();
@@ -152,30 +228,7 @@ namespace BattleShips.Models
             else
                 return 0;
         }
-
-        public int GetShipCountInMap(int shipTypeID)
-        {
-            var list = GetShipData();
-            if (list != null)
-                return list.Where(n => n.ShipTypeID == shipTypeID).Count();
-            else
-                return 0;
-        }
-        public bool IsOutOfShips()
-        {
-            for (int i = 0; i < MapLayout.Length; i++)
-            {
-                for (int j = 0; j < MapLayout[i].Length; j++)
-                {
-                    FieldCell cell = MapLayout[i][j];
-                    if (cell.CellShip != null && !cell.IsShot)
-                    {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
+       
     }
 
     public class StandartField : Field
