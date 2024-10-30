@@ -36,6 +36,14 @@
             }
         </div>
     }
+    <div class="ship-list">
+        @foreach (var ship in Ships)
+        {
+            <button @onclick="() => SelectShip(ship)">
+                Select @ship.ShipName
+            </button>
+        }
+    </div>
 </div>
 
 @code {
@@ -47,33 +55,36 @@
     public bool Enabled { get; set; } = true;
     [Parameter]
     public string RoomID { get; set; }
+    [Parameter]
+    public List<Ship> Ships { get; set; }
     private FieldCell? hoveredCell;
+    private Ship? selectedShip;
 
-    private void CellClicked(FieldCell cell)
-    {
-        if (Enabled)
-        {
-            FieldModel.FireAtCell(cell);
-            
-            if (cell.CellShip != null)
-            {
-                if (FieldModel.IsOutOfShips())
-                {
-                    RoomService.EndGame("");
-                    ToastService.ShowSuccess("All ships are destroyed!");
-                }
-            }
-            else
-            {
-                RoomService.ChangeTurn(RoomID);
-                Console.WriteLine("Nepataikei į laivą " + Enabled);
-            }
-        }
-        else
-        {
-            ToastService.ShowError("Ne tavo ėjimas!");
-        }
-    }
+
+	private void CellClicked(FieldCell cell)
+	{
+		if (Enabled && selectedShip != null)
+		{
+			FieldModel.FireAtCell(cell, selectedShip);
+
+
+
+			if (FieldModel.IsOutOfShips())
+			{
+				RoomService.EndGame("");
+				ToastService.ShowSuccess("All ships are destroyed!");
+			}
+			else
+			{
+				RoomService.ChangeTurn(RoomID);
+				Console.WriteLine("Nepataikei į laivą " + Enabled);
+			}
+		}
+		else
+		{
+			ToastService.ShowError("Ne tavo ėjimas!");
+		}
+	}
 
     private void OnMouseOver(FieldCell cell)
     {
@@ -83,5 +94,12 @@
     private void OnMouseOut()
     {
         hoveredCell = null;
+    }
+
+    private void SelectShip(Ship ship)
+    {
+        selectedShip = ship;
+        ToastService.ShowInfo($"Selected {ship.ShipName}");
+        StateHasChanged();
     }
 }

@@ -13,6 +13,8 @@ namespace BattleShips.Models
         public int Columns { get; set; }
         public bool IsReadyToPlay { get; set; }
         private readonly List<IFieldObserver> observers = new List<IFieldObserver>();
+
+        public List<Ship> Ships { get; set; } = new List<Ship>();
         #endregion
         public Field(string name, int rows, int columns)
         {
@@ -62,14 +64,30 @@ namespace BattleShips.Models
         #endregion
 
         #region global Map Methods
-        public void FireAtCell(FieldCell cell)
+        public void FireAtCell(FieldCell cellInitial, Ship selectedShip)
         {
-            if (!cell.IsShot)
+            cellInitial.IsShot = true;
+            NotifyShotFired(cellInitial);
+            List<FieldCell> attackCells = selectedShip.Attack(cellInitial);
+            foreach (FieldCell cell in attackCells)
             {
-                cell.IsShot = true;
-                NotifyShotFired(cell);
-                NotifyFieldStateChanged();
+                try
+                {
+                    FieldCell mapCell = this.MapLayout[cell.RowIndex][cell.ColIndex];
+                    if (!mapCell.IsShot)
+                    {
+                        mapCell.IsShot = true;
+
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
             }
+
+            NotifyFieldStateChanged();
         }
         public void PlaceShipOnMap(Ship shipFromList, FieldCell beginingCell)
         {

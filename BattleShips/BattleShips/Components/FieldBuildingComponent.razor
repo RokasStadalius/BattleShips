@@ -126,7 +126,11 @@
             if (FieldModel.CanPlaceShip(draggedShip, cell))
             {
                 if (FieldModel.GetShipCountInMap(draggedShip.ShipTypeID) < draggedShip.MaxPlacementCount)
+                {
                     FieldModel.PlaceShipOnMap(draggedShip, cell);
+                    FieldModel.Ships.Add(draggedShip);
+                }
+                
                 else
                     ToastService.ShowError("Ship count limit is reached!");
             }

@@ -30,5 +30,14 @@
                     return color_Water;
             }
         }
+
+        public FieldCell(int RowIndex, int ColIndex) { 
+            this.RowIndex = RowIndex;
+            this.ColIndex = ColIndex;
+            this.CellShip = null;
+            this.IsShot = false;
+            this.IsAdjacent = false;
+        }
+        public FieldCell() { }
     }
 }

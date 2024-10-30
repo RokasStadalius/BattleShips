@@ -4,7 +4,7 @@ namespace BattleShips.Models
 {
     public class Destroyer : Ship
     {
-        public Destroyer(int shipID, int shipTypeID, string shipName)
+        public Destroyer(int shipID, int shipTypeID, string shipName) : base(new DestroyerAttackStrategy())
         {
             this.ShipID = shipID;
             this.ShipTypeID = shipTypeID;
@@ -19,13 +19,14 @@ namespace BattleShips.Models
     }
     public class Submarine : Ship
     {
-        public Submarine(int shipID, int shipTypeID, string shipName)
+        public Submarine(int shipID, int shipTypeID, string shipName) : base(new SubmarineAttackStrategy())
         {
             this.ShipID = shipID;
             this.ShipTypeID = shipTypeID;
             this.MaxPlacementCount = 2;
             this.ShipName = shipName;
             this.Length = 3;
+            this.AttackStrategy= new SubmarineAttackStrategy();
         }
         public override Ship MakeCopy()
         {
@@ -34,7 +35,7 @@ namespace BattleShips.Models
     }
     public class Battleship : Ship
     {
-        public Battleship(int shipID, int shipTypeID, string shipName)
+        public Battleship(int shipID, int shipTypeID, string shipName) : base(new BattleshipAttackStrategy())
         {
             this.ShipID = shipID;
             this.ShipTypeID = shipTypeID;
@@ -49,7 +50,7 @@ namespace BattleShips.Models
     }
     public class Carrier : Ship
     {
-        public Carrier(int shipID, int shipTypeID, string shipName)
+        public Carrier(int shipID, int shipTypeID, string shipName) : base(new CarrierAttackStrategy())
         {
             this.ShipID = shipID;
             this.ShipTypeID = shipTypeID;

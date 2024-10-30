@@ -23,6 +23,8 @@
     private bool isConsoleExpanded = false;
     private string consoleState => isConsoleExpanded ? "expanded" : "retracted";
 
+    private List<Ship> placeholderShips = new List<Ship>();
+
     IField factory;
 
     protected override async Task OnInitializedAsync()
@@ -179,7 +181,7 @@ else
             <div>
                 @if(@fieldA != null)
                 {
-                    <FieldComponent FieldModel="@fieldA" ShowFieldShips="true" Enabled="false" RoomID="@currentRoom.RoomId" />
+                    <FieldComponent FieldModel="@fieldA" ShowFieldShips="true" Enabled="false" RoomID="@currentRoom.RoomId" Ships="@placeholderShips"/>
 
                 }
                 
@@ -187,7 +189,7 @@ else
             <div style="margin-left: 30px;">
                 @if (fieldB != null)
                 {
-                    <FieldComponent FieldModel="@fieldB" ShowFieldShips="false" Enabled="IsItYourTurn()" RoomID="@currentRoom.RoomId" />
+                    <FieldComponent FieldModel="@fieldB" ShowFieldShips="false" Enabled="IsItYourTurn()" RoomID="@currentRoom.RoomId" Ships="@fieldA.Ships"/>
                 }
             </div>
         </div>
