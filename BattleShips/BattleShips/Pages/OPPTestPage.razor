@@ -74,6 +74,11 @@
     }
 }
 
+<h2>05. Observer</h2>
+<div>
+    <img src="../Images/Observer_SD.png" alt="Observer Pattern Sequentse Diagram" style="max-width:100%; height:auto;">
+</div>
+
 <h2>08. Prototype</h2>
 <div>
     <button type="button" class="btn btn-primary" @onclick="DemonstratePrototype">Demonstrate Prototype - Shallow vs Deep Copy</button>
@@ -102,7 +107,6 @@
         var deepCopy = (Battleship)originalShip.Clone();
 
         results.Clear();
-        // Display memory addresses and differences
         results.Add($"Original Ship ID: {originalShip.ShipID}, Hash: {originalShip.GetHashCode()}, Attack strat Hash: {originalShip.AttackStrategy.GetHashCode()}");
         results.Add($"Shallow Copy Ship ID: {shallowCopy.ShipID}, Hash: {shallowCopy.GetHashCode()}, Attack strat Hash: {shallowCopy.AttackStrategy.GetHashCode()}");
         results.Add($"Deep Copy Ship ID: {deepCopy.ShipID}, Hash: {deepCopy.GetHashCode()}, Attack strat Hash: {deepCopy.AttackStrategy.GetHashCode()}");
