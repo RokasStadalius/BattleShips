@@ -3,9 +3,9 @@
 @inject Blazored.Toast.Services.IToastService ToastService
 
 @code {
-    private IShipFactory naziShipFactory = new NaziShipFactory();
+    private IShipFactory germanShipFactory = new GermanShipFactory();
     private IShipFactory sovietShipFactory = new SovietShipFactory();
-    private List<Ship> Naziships;
+    private List<Ship> GermanShips;
     private List<Ship> Sovietships;
 
     [Parameter]
@@ -16,12 +16,12 @@
     protected override void OnInitialized()
     {
         // Initialize Nazi ships using the Nazi factory
-        Naziships = new List<Ship>
+        GermanShips = new List<Ship>
         {
-            naziShipFactory.CreateDestroyer(1,1, "Nazi Destroyer"),
-            naziShipFactory.CreateSubmarine(1,2, "Nazi Submarine"),
-            naziShipFactory.CreateBattleship(1,3, "Nazi Battleship"),
-            naziShipFactory.CreateCarrier(1,4, "Nazi Carrier")
+            germanShipFactory.CreateDestroyer(1,1, "German Destroyer"),
+            germanShipFactory.CreateSubmarine(1,2, "German Submarine"),
+            germanShipFactory.CreateBattleship(1,3, "German Battleship"),
+            germanShipFactory.CreateCarrier(1,4, "German Carrier")
         };
 
         // Initialize Soviet ships using the Soviet factory
@@ -36,7 +36,7 @@
         // Determine which ships to show based on PlayerID
         if (PlayerID == 1)
         {
-            CurrentPlayerShips = Naziships;
+            CurrentPlayerShips = GermanShips;
         }
         else if (PlayerID == 2)
         {
@@ -146,7 +146,7 @@
     public void RotateShip()
     {
         // Rotate Nazi and Soviet ships
-        foreach (var ship in Naziships.Concat(Sovietships))
+        foreach (var ship in GermanShips.Concat(Sovietships))
         {
             ship.IsVertical = !ship.IsVertical;
         }

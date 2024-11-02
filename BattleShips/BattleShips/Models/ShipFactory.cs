@@ -1,6 +1,6 @@
 ﻿namespace BattleShips.Models
 {
-    public class NaziShipFactory : IShipFactory
+    public class GermanShipFactory : IShipFactory
     {
         public Ship CreateBattleship(int shipID, int shipTypeID, string shipName)
         {
