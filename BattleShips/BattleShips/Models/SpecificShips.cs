@@ -12,9 +12,24 @@ namespace BattleShips.Models
             this.ShipName = shipName;
             this.Length = 2;
         }
-        public override Ship MakeCopy()
+        public override Ship MakeShalowCopy()
         {
             return(Ship)this.MemberwiseClone();
+        }
+        public override object Clone()
+        {
+            var clone = new Destroyer(ShipID, ShipTypeID, ShipName)
+            {
+                MaxPlacementCount = this.MaxPlacementCount,
+                Length = this.Length,
+                IsVertical = this.IsVertical
+            };
+
+            if (this.AttackStrategy != null)
+                clone.AttackStrategy = this.AttackStrategy.Clone() as IShipAttackStrategy;
+
+
+            return clone;
         }
     }
     public class Submarine : Ship
@@ -28,9 +43,24 @@ namespace BattleShips.Models
             this.Length = 3;
             this.AttackStrategy= new SubmarineAttackStrategy();
         }
-        public override Ship MakeCopy()
+        public override Ship MakeShalowCopy()
         {
             return (Ship)this.MemberwiseClone();
+        }
+        public override object Clone()
+        {
+            var clone = new Submarine(ShipID, ShipTypeID, ShipName)
+            {
+                MaxPlacementCount = this.MaxPlacementCount,
+                Length = this.Length,
+                IsVertical = this.IsVertical
+            };
+
+            if (this.AttackStrategy != null)
+                clone.AttackStrategy = this.AttackStrategy.Clone() as IShipAttackStrategy;
+
+
+            return clone;
         }
     }
     public class Battleship : Ship
@@ -43,9 +73,24 @@ namespace BattleShips.Models
             this.ShipName = shipName;
             this.Length = 4;
         }
-        public override Ship MakeCopy()
+        public override Ship MakeShalowCopy()
         {
             return (Ship)this.MemberwiseClone();
+        }
+        public override object Clone()
+        {
+            var clone = new Battleship(ShipID, ShipTypeID, ShipName)
+            {
+                MaxPlacementCount = this.MaxPlacementCount,
+                Length = this.Length,
+                IsVertical = this.IsVertical
+            };
+
+            if (this.AttackStrategy != null)
+                clone.AttackStrategy = this.AttackStrategy.Clone() as IShipAttackStrategy;
+            
+
+            return clone;
         }
     }
     public class Carrier : Ship
@@ -58,7 +103,24 @@ namespace BattleShips.Models
             this.ShipName = shipName;
             this.Length = 5;
         }
-        public override Ship MakeCopy()
+
+        public override object Clone()
+        {
+            var clone = new Carrier(ShipID, ShipTypeID, ShipName)
+            {
+                MaxPlacementCount = this.MaxPlacementCount,
+                Length = this.Length,
+                IsVertical = this.IsVertical
+            };
+
+            if (this.AttackStrategy != null)
+                clone.AttackStrategy = this.AttackStrategy.Clone() as IShipAttackStrategy;
+            
+
+            return clone;
+        }
+
+        public override Ship MakeShalowCopy()
         {
             return (Ship)this.MemberwiseClone();
         }

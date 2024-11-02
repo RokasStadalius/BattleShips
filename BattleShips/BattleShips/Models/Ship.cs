@@ -1,6 +1,6 @@
 ﻿namespace BattleShips.Models
 {
-    public abstract class Ship
+    public abstract class Ship : ICloneable
     {
         public int ShipID { get; set; }
         public int ShipTypeID { get; set; }
@@ -14,11 +14,14 @@
         {
             AttackStrategy = attackStrategy;
         }
-        public abstract Ship MakeCopy();
+        public abstract Ship MakeShalowCopy();
+        public abstract object Clone();
 
         public List<FieldCell> Attack(FieldCell target)
         {
             return AttackStrategy.ExecuteAttack(target);
         }
+
+        
     }
 }

@@ -6,6 +6,11 @@
         {
             return new List<FieldCell> { target };
         }
+
+        public IShipAttackStrategy Clone()
+        {
+            return new DestroyerAttackStrategy();
+        }
     }
 
     public class SubmarineAttackStrategy : IShipAttackStrategy
@@ -13,13 +18,18 @@
         public List<FieldCell> ExecuteAttack(FieldCell target)
         {
             return new List<FieldCell>
+            {
+                target,
+                new FieldCell(target.RowIndex - 1, target.ColIndex),
+                new FieldCell(target.RowIndex + 1, target.ColIndex),
+                new FieldCell(target.RowIndex, target.ColIndex - 1),
+                new FieldCell(target.RowIndex, target.ColIndex + 1)
+            };
+        }
+
+        public IShipAttackStrategy Clone()
         {
-            target,
-            new FieldCell(target.RowIndex - 1, target.ColIndex),
-            new FieldCell(target.RowIndex + 1, target.ColIndex),
-            new FieldCell(target.RowIndex, target.ColIndex - 1),
-            new FieldCell(target.RowIndex, target.ColIndex + 1)
-        };
+            return new SubmarineAttackStrategy();
         }
     }
 
@@ -28,12 +38,17 @@
         public List<FieldCell> ExecuteAttack(FieldCell target)
         {
             return new List<FieldCell>
+            {
+                new FieldCell(target.RowIndex, target.ColIndex),
+                new FieldCell(target.RowIndex, target.ColIndex + 1),
+                new FieldCell(target.RowIndex, target.ColIndex + 2),
+                new FieldCell(target.RowIndex, target.ColIndex + 3)
+            };
+        }
+
+        public IShipAttackStrategy Clone()
         {
-            new FieldCell(target.RowIndex, target.ColIndex),
-            new FieldCell(target.RowIndex, target.ColIndex + 1),
-            new FieldCell(target.RowIndex, target.ColIndex + 2),
-            new FieldCell(target.RowIndex, target.ColIndex + 3)
-        };
+            return new BattleshipAttackStrategy();
         }
     }
 
@@ -42,17 +57,22 @@
         public List<FieldCell> ExecuteAttack(FieldCell target)
         {
             return new List<FieldCell>
+            {
+                target,
+                new FieldCell(target.RowIndex - 1, target.ColIndex - 1),
+                new FieldCell(target.RowIndex - 1, target.ColIndex + 1),
+                new FieldCell(target.RowIndex + 1, target.ColIndex - 1),
+                new FieldCell(target.RowIndex + 1, target.ColIndex + 1),
+                new FieldCell(target.RowIndex - 1, target.ColIndex),
+                new FieldCell(target.RowIndex + 1, target.ColIndex),
+                new FieldCell(target.RowIndex, target.ColIndex - 1),
+                new FieldCell(target.RowIndex, target.ColIndex + 1)
+            };
+        }
+
+        public IShipAttackStrategy Clone()
         {
-            target,
-            new FieldCell(target.RowIndex - 1, target.ColIndex - 1),
-            new FieldCell(target.RowIndex - 1, target.ColIndex + 1),
-            new FieldCell(target.RowIndex + 1, target.ColIndex - 1),
-            new FieldCell(target.RowIndex + 1, target.ColIndex + 1),
-            new FieldCell(target.RowIndex - 1, target.ColIndex),
-            new FieldCell(target.RowIndex + 1, target.ColIndex),
-            new FieldCell(target.RowIndex, target.ColIndex - 1),
-            new FieldCell(target.RowIndex, target.ColIndex + 1)
-        };
+            return new CarrierAttackStrategy();
         }
     }
 }

@@ -97,7 +97,7 @@ namespace BattleShips.Models
             }
 
             Ship ship;
-            ship = shipFromList.MakeCopy();
+            ship = shipFromList.MakeShalowCopy();
             ship.ShipID = GeneratyeIDForShip();
             if (ship.IsVertical)
             {
