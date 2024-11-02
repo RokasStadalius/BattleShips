@@ -1,0 +1,110 @@
+﻿@page "/OPPTestPage"
+@inject Blazored.Toast.Services.IToastService ToastService
+@inject RoomService RoomService
+@inject UserState UserState
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+@using BattleShips.Models;
+@using BattleShips.Components;
+@using BattleShips.Services;
+@using Microsoft.AspNetCore.SignalR.Client;
+
+<h3>Welcome to OPP Testing Room</h3>
+
+<div>
+    <ul>
+        <li>a. Singleton – demonstrate “thread safe”</li>
+        <li>b. Factory – at least 3 classes in the family</li>
+        <li>c. Abstract Factory – at least 2 real factories, each with at least 3 classes</li>
+        <li>d. Strategy – at least 4 strategy classes</li>
+        <li>e. Observer – demonstrate functionality through a sequence diagram</li>
+        <li>f. Builder – at least 2 “concrete builders”</li>
+        <li>g. Adapter – Adapter and Adaptee have different method counts</li>
+        <li>h. Prototype – Compare deep and shallow copy creation; be able to change implementation during testing; report results - memory addresses</li>
+        <li>i. Decorator – at least 3 levels of decoration</li>
+        <li>j. Command – commands must have undo() capability</li>
+        <li>k. Façade – at least 2 “client” classes and at least 3 “subsystem” classes</li>
+        <li>l. Bridge – at least 2 abstractions and at least 2 concrete implementations; explain the difference from Strategy and Adapter patterns</li>
+    </ul>
+</div>
+
+<h2>01. Singleton</h2>
+<div>
+    <button type="button" class="btn btn-primary" @onclick="DemonstrateSingleton">Demonstrate Singleton Thread Safety</button>
+    <br />
+    <p>@resultMessage</p>
+    <p>Kambariu skaicius: @RoomService.GetAllRooms().Count()</p>
+    <div>
+        @foreach (Room room in RoomService.GetAllRooms())
+        {
+            @if (room != null)
+            {
+                <div>
+                    <div>
+                        @room.RoomId
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
+@code {
+    private string resultMessage;
+
+    private async Task DemonstrateSingleton()
+    {
+        resultMessage = "Demonstration in progress...";
+
+        var tasks = new List<Task>();
+        for (int i = 0; i < 5; i++)
+        {
+            tasks.Add(Task.Run(() =>
+            {
+                RoomService.CreateRoomStandart($"Room {Guid.NewGuid()}");
+                var allRooms = RoomService.GetAllRooms();
+                Console.WriteLine($"Total Rooms: {allRooms.Count()}");
+            }));
+        }
+
+        await Task.WhenAll(tasks);
+
+        resultMessage = "Demonstration completed.";
+        StateHasChanged();
+    }
+}
+
+<h2>08. Prototype</h2>
+<div>
+    <button type="button" class="btn btn-primary" @onclick="DemonstratePrototype">Demonstrate Prototype - Shallow vs Deep Copy</button>
+    <br />
+    <p>
+        @foreach (var msg in results)
+        {
+            <div>
+                @msg
+            </div>
+        }
+    </p>
+</div>
+
+@code {
+    private List<string> results = new List<string>();
+
+    private void DemonstratePrototype()
+    {
+        var originalShip = new Battleship(1,1,"testas");
+
+        // Shallow copy
+        var shallowCopy = originalShip.MakeShalowCopy();
+
+        // Deep copy
+        var deepCopy = (Battleship)originalShip.Clone();
+
+        results.Clear();
+        // Display memory addresses and differences
+        results.Add($"Original Ship ID: {originalShip.ShipID}, Hash: {originalShip.GetHashCode()}, Attack strat Hash: {originalShip.AttackStrategy.GetHashCode()}");
+        results.Add($"Shallow Copy Ship ID: {shallowCopy.ShipID}, Hash: {shallowCopy.GetHashCode()}, Attack strat Hash: {shallowCopy.AttackStrategy.GetHashCode()}");
+        results.Add($"Deep Copy Ship ID: {deepCopy.ShipID}, Hash: {deepCopy.GetHashCode()}, Attack strat Hash: {deepCopy.AttackStrategy.GetHashCode()}");
+    }
+}

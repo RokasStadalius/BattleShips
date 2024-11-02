@@ -7,35 +7,57 @@ namespace BattleShips.Services
     {
         private List<Room> Rooms = new List<Room>();
         private readonly IHubContext<RoomHub> _hubContext;
+        private readonly object _lock = new object();
 
         public RoomService(IHubContext<RoomHub> hubContext)
         {
             _hubContext = hubContext;
         }
 
-        public IEnumerable<Room> GetAllRooms() => Rooms;
+        public IEnumerable<Room> GetAllRooms()
+        {
+            lock (_lock)
+            {
+                return Rooms.ToList();
+            }
+        }
 
-        public Room GetRoomById(string roomId) => Rooms.FirstOrDefault(r => r.RoomId == roomId);
+        public Room GetRoomById(string roomId)
+        {
+            lock (_lock)
+            {
+                return Rooms.FirstOrDefault(r => r.RoomId == roomId);
+            }
+        }
 
         public void CreateRoomStandart(string roomName)
         {
-            var room = new Room(roomName, "standart");
-            Rooms.Add(room);
-            RefreshRoomList();
+            lock (_lock)
+            {
+                var room = new Room(roomName, "standart");
+                Rooms.Add(room);
+                RefreshRoomList();
+            }
         }
 
         public void CreateRoomMedium(string roomName)
         {
-            var room = new Room(roomName, "medium");
-            Rooms.Add(room);
-            RefreshRoomList();
+            lock (_lock)
+            {
+                var room = new Room(roomName, "medium");
+                Rooms.Add(room);
+                RefreshRoomList();
+            }
         }
 
         public void CreateRoomAdvanced(string roomName)
         {
-            var room = new Room(roomName, "advanced");
-            Rooms.Add(room);
-            RefreshRoomList();
+            lock (_lock)
+            {
+                var room = new Room(roomName, "advanced");
+                Rooms.Add(room);
+                RefreshRoomList();
+            }
         }
         public void RefreshRoomList()
         {
@@ -47,10 +69,13 @@ namespace BattleShips.Services
         }
 
         public void ChangeTurn(string roomID)
-        {   
-            var room = GetRoomById(roomID);
-            room.ChangeTurn();
-            _hubContext.Clients.All.SendAsync("ChangeTurn");
+        {
+            lock (_lock)
+            {
+                var room = GetRoomById(roomID);
+                room.ChangeTurn();
+                _hubContext.Clients.All.SendAsync("ChangeTurn");
+            }
         }
         public void EndGame(string roomID)
         {
@@ -58,8 +83,11 @@ namespace BattleShips.Services
         }
         public bool RemoveRoom(string roomID)
         {
-            var room = GetRoomById(roomID);
-            return Rooms.Remove(room);
+            lock (_lock)
+            {
+                var room = GetRoomById(roomID);
+                return Rooms.Remove(room);
+            }
         }
 
 

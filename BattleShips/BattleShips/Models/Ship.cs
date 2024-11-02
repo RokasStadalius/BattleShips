@@ -9,7 +9,7 @@
         public int Length { get; set; }
         public bool IsVertical { get; set; } = false;
 
-        protected IShipAttackStrategy AttackStrategy;
+        public IShipAttackStrategy AttackStrategy;
         public Ship(IShipAttackStrategy attackStrategy)
         {
             AttackStrategy = attackStrategy;
