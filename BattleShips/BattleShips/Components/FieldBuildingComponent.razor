@@ -82,8 +82,6 @@
                 FieldCell innerCell = FieldModel.MapLayout[row][col];
 
                 <div class="cell"
-                     @onmouseover="@(e => ApplyHighlight(innerCell))"
-                     @onmouseout="@(e => RemoveHighlight(innerCell))"
                      @ondragover:preventDefault="true"
                      @ondragover="@(e => OnDragOver(innerCell))"
                      @ondragenter="@(e => OnDragEnter(innerCell))"
@@ -113,9 +111,9 @@
 
     private void ApplyHighlight(FieldCell cell)
     {
-        if (!cell.IsShot && cell.CellShip == null)
+        if (!cell.IsShot && cell.CellShip == null && draggedShip != null) //check if we do drag the ship
         {
-            var highlightedCell = new HighlightDecorator(cell);
+            var highlightedCell = new HighlightDecorator(cell, draggedShip); //pass draggedShip to the decorator
             FieldModel.MapLayout[cell.RowIndex][cell.ColIndex] = highlightedCell;
             StateHasChanged();
         }
