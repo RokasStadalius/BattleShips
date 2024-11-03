@@ -6,6 +6,15 @@ using Microsoft.AspNetCore.Components.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Register the Field service
+builder.Services.AddScoped<Field>(sp => new Field("GameField", 10, 10));
+
+// Register IShipFactory implementations
+builder.Services.AddScoped<IShipFactory, GermanShipFactory>(); // Or SovietShipFactory based on your requirements
+
+// Register FacadeGameService after all dependencies have been registered
+builder.Services.AddScoped<FacadeGameService>();
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();

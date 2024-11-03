@@ -1,0 +1,52 @@
+﻿@page "/game-test"
+@using BattleShips.Models;
+@using BattleShips.Services;
+@inject FacadeGameService FacadeGameService
+
+<h3>Game Test Page</h3>
+<button @onclick="StartGame">Start Game</button>
+<button @onclick="PlaceTestShip">Place Test Ship</button>
+<button @onclick="FireTest">Fire at (0,1)</button>
+<button @onclick="GameOver">Is game over?</button>
+<button @onclick="UndoTest">Undo Last Action</button>
+
+@code {
+    private void StartGame()
+    {
+        FacadeGameService.InitializeGame();
+    }
+
+    private void PlaceTestShip()
+    {
+        var startCell = new FieldCell { RowIndex = 0, ColIndex = 0 };
+        FacadeGameService.PlaceShip(0, startCell);
+        Console.WriteLine("Test ship placed at (0,0).");
+    }
+
+    private void FireTest()
+    {
+        int row = 0;
+        int col = 1;
+        int shipIndex = 0;
+        FacadeGameService.FireAt(row, col, shipIndex);
+        Console.WriteLine($"Fired at ({row},{col}) using ship {shipIndex}.");
+    }
+
+    private void GameOver()
+    {
+        if (FacadeGameService.IsGameOver())
+        {
+            Console.WriteLine("Game is over!");
+        }
+        else
+        {
+            Console.WriteLine("Game goes on...");
+        }
+    }
+
+    private void UndoTest()
+    {
+        FacadeGameService.Undo();
+        Console.WriteLine("Undid last action.");
+    }
+}

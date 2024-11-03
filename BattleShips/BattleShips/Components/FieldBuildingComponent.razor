@@ -82,8 +82,11 @@
                 FieldCell innerCell = FieldModel.MapLayout[row][col];
 
                 <div class="cell"
+                     @onmouseover="@(e => ApplyHighlight(innerCell))"
+                     @onmouseout="@(e => RemoveHighlight(innerCell))"
                      @ondragover:preventDefault="true"
                      @ondragover="@(e => OnDragOver(innerCell))"
+                     @ondragenter="@(e => OnDragEnter(innerCell))"
                      @ondrop="@(e => OnDrop(innerCell))">
                     <button class="cell-button" style="background-color:@(innerCell.GetCellColorState(true));">
                     </button>
@@ -108,6 +111,28 @@
         }
     }
 
+    private void ApplyHighlight(FieldCell cell)
+    {
+        if (!cell.IsShot && cell.CellShip == null)
+        {
+            var highlightedCell = new HighlightDecorator(cell);
+            FieldModel.MapLayout[cell.RowIndex][cell.ColIndex] = highlightedCell;
+            StateHasChanged();
+        }
+    }
+
+    private void RemoveHighlight(FieldCell cell)
+    {
+        FieldModel.MapLayout[cell.RowIndex][cell.ColIndex] = new FieldCell(cell.RowIndex, cell.ColIndex)
+            {
+                CellShip = cell.CellShip,
+                IsShot = cell.IsShot,
+                IsAdjacent = cell.IsAdjacent
+            };
+
+        StateHasChanged();
+    }
+
     private void OnDragStart(DragEventArgs e, Ship ship)
     {
         draggedShip = ship;
@@ -117,6 +142,55 @@
     private void OnDragOver(FieldCell cell)
     {
         hoveredCell = cell;
+    }
+
+    private async void OnDragEnter(FieldCell cell)
+    {
+        if (draggedShip == null) // Check if the ship is being dragged
+            return;
+
+        List<FieldCell> cellsToHighlight = new List<FieldCell>();
+
+        if (draggedShip.IsVertical)
+        {
+            if (cell.RowIndex + draggedShip.Length <= FieldModel.Rows) // Check if the ship placement is valid
+            {
+                for (int i = 0; i < draggedShip.Length; i++)
+                {
+                    FieldCell targetCell = FieldModel.MapLayout[cell.RowIndex + i][cell.ColIndex];
+                    cellsToHighlight.Add(targetCell);
+                }
+            }
+        }
+        else // Horizontal ship
+        {
+            if (cell.ColIndex + draggedShip.Length <= FieldModel.Columns) // Check if the ship placement is valid
+            {
+                for (int i = 0; i < draggedShip.Length; i++)
+                {
+                    FieldCell targetCell = FieldModel.MapLayout[cell.RowIndex][cell.ColIndex + i];
+                    cellsToHighlight.Add(targetCell);
+                }
+            }
+        }
+
+        // Check all the cells that will be highlighted for no ships intact.
+        if (cellsToHighlight.All(c => FieldModel.CanPlaceShip(draggedShip, c)))
+        {
+            foreach (var targetCell in cellsToHighlight)
+            {
+                ApplyHighlight(targetCell);
+            }
+
+            // Wait for 1 second before removing highlights
+            await Task.Delay(1000); // Wait for 1 second
+
+            // Remove highlights
+            foreach (var targetCell in cellsToHighlight)
+            {
+                RemoveHighlight(targetCell); // Reset back to original cell state
+            }
+        }
     }
 
     private void OnDrop(FieldCell cell)

@@ -13,7 +13,7 @@
         private string color_Ship = "rgb(122, 196, 43)";
         private string color_Ship_Hit = "rgb(227, 72, 48)";
 
-        public string GetCellColorState(bool showShips)
+        public virtual string GetCellColorState(bool showShips)
         {
             if (IsShot)
             {
