@@ -96,7 +96,7 @@
         hoveredCell = null;
     }
 
-    private void SelectShip(Ship ship)
+    public void SelectShip(Ship ship)
     {
         selectedShip = ship;
         ToastService.ShowInfo($"Selected {ship.ShipName}");

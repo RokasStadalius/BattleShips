@@ -40,4 +40,12 @@
     <Folder Include="Modules\Components\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Rokas\Desktop\KTU STUFF\KTU 4 KURSAS\BattleShips\BattleShips\BattleShipsTestingProject\Modules\Objects\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\Rokas\Desktop\KTU STUFF\KTU 4 KURSAS\BattleShips\BattleShips\BattleShipsTestingProject\Modules\Objects\.editorconfig" />
+  </ItemGroup>
+
 </Project>

@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+	<UseRazorSourceGenerator>false</UseRazorSourceGenerator>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,5 +21,6 @@
   <ItemGroup>
     <None Include="wwwroot\Images\Observer_SD.png" />
   </ItemGroup>
+  
 
 </Project>
