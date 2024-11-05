@@ -109,10 +109,5 @@
         {
             return gameField.IsOutOfShips();
         }
-
-        public Field GetGameField()
-        {
-            return gameField;
-        }
     }
 }
