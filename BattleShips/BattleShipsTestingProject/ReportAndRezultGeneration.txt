@@ -12,3 +12,9 @@
 //==============Koks failas rodo testų rezultatus==============
 //--Sugeneruotame rezultatų folderyje  (pvz.: "D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsTestingProject\TestResults\cef76bfa-85c9-4696-8364-2b8dd4e1ec29")
 //index.html
+
+
+
+//==============Jei neturi raporto bibliotekos, reikia įsirašyti==============
+//CMD komanda:
+//dotnet tool install -g dotnet-reportgenerator-globaltool
