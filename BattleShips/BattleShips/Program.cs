@@ -3,6 +3,7 @@ using BattleShips.Services;
 using Blazored.Toast;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +37,17 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
+
+try
+{
+    var testResultsPath = Path.Combine(app.Environment.ContentRootPath + "..\\", "BattleShipsTestingProject", "TestResults");
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(testResultsPath),
+        RequestPath = "/BattleShipsTestingProject/TestResults"
+    });
+}
+catch{ }
 
 app.UseRouting();
 

@@ -1,14 +1,14 @@
-﻿==============Kaip sugeneruoti xml testų rezultatus==============
--Developer Command Prompt:
-dotnet test --collect:"XPlat Code Coverage"
+﻿//==============Kaip sugeneruoti xml testų rezultatus==============
+//-Developer Command Prompt:
+//dotnet test --collect:"XPlat Code Coverage"
 
 
-==============Kaip gauti vizualinį xml rezultatus==============
--Sugeneruotame rezultatų folderyje  (pvz.: "D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsTestingProject\TestResults\cef76bfa-85c9-4696-8364-2b8dd4e1ec29")
--Rašome cmd komandą: 
-reportgenerator -reports:coverage.cobertura.xml -reportTypes:Html -targetDir:.
+//==============Kaip gauti vizualinį xml rezultatus==============
+//-Sugeneruotame rezultatų folderyje  (pvz.: "D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsTestingProject\TestResults\cef76bfa-85c9-4696-8364-2b8dd4e1ec29")
+//-Rašome cmd komandą: 
+//reportgenerator -reports:coverage.cobertura.xml -reportTypes:Html -targetDir:.
 
 
-==============Koks failas rodo testų rezultatus==============
---Sugeneruotame rezultatų folderyje  (pvz.: "D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsTestingProject\TestResults\cef76bfa-85c9-4696-8364-2b8dd4e1ec29")
-index.html
+//==============Koks failas rodo testų rezultatus==============
+//--Sugeneruotame rezultatų folderyje  (pvz.: "D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsTestingProject\TestResults\cef76bfa-85c9-4696-8364-2b8dd4e1ec29")
+//index.html

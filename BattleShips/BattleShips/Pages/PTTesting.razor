@@ -4,6 +4,7 @@
 @inject UserState UserState
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
+@inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment Env
 
 @using BattleShips.Models;
 @using BattleShips.Components;
@@ -12,3 +13,48 @@
 
 <h3>Welcome to OPP Testing Room</h3>
 
+@if (IsLoading)
+{
+    <p>Loading...</p>
+}
+else if (!string.IsNullOrEmpty(IFrameSrc))
+{
+    <iframe src="@IFrameSrc" width="100%" height="600px" frameborder="0"></iframe>
+}
+else
+{
+    <p>No test results found.</p>
+}
+
+@code {
+    private bool IsLoading = true;
+    private string IFrameSrc;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var latestFolder = GetLatestFolder();
+
+        if (!string.IsNullOrEmpty(latestFolder))
+        {
+            // Construct the path to the index.html file.
+            IFrameSrc = $"/BattleShipsTestingProject/TestResults/{latestFolder}/index.html";
+        }
+
+        IsLoading = false;
+        StateHasChanged();
+    }
+
+    private string GetLatestFolder()
+    {
+        var directoryInfo = new System.IO.DirectoryInfo(System.IO.Path.Combine(Env.ContentRootPath, "..\\BattleShipsTestingProject\\TestResults"));
+        if (directoryInfo.Exists && directoryInfo.GetDirectories().Length > 0)
+        {
+            var latestFolder = directoryInfo.GetDirectories()
+                                            .OrderByDescending(d => d.CreationTime)
+                                            .FirstOrDefault();
+            return latestFolder?.Name;
+        }
+
+        return null;
+    }
+}
