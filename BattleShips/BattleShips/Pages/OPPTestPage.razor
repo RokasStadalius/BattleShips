@@ -98,13 +98,13 @@
 
     private void DemonstratePrototype()
     {
-        var originalShip = new Battleship(1,1,"testas");
+        var originalShip = new Submarine(1, 1, "testas");
 
         // Shallow copy
         var shallowCopy = originalShip.MakeShalowCopy();
 
         // Deep copy
-        var deepCopy = (Battleship)originalShip.Clone();
+        var deepCopy = (Submarine)originalShip.Clone();
 
         results.Clear();
         results.Add($"Original Ship ID: {originalShip.ShipID}, Hash: {originalShip.GetHashCode()}, Attack strat Hash: {originalShip.AttackStrategy.GetHashCode()}");

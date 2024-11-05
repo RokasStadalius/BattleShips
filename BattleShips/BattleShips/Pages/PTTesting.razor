@@ -1,0 +1,14 @@
+﻿@page "/PTTesting"
+@inject Blazored.Toast.Services.IToastService ToastService
+@inject RoomService RoomService
+@inject UserState UserState
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+@using BattleShips.Models;
+@using BattleShips.Components;
+@using BattleShips.Services;
+@using Microsoft.AspNetCore.SignalR.Client;
+
+<h3>Welcome to OPP Testing Room</h3>
+

@@ -30,7 +30,19 @@
                     return color_Water;
             }
         }
+        public override bool Equals(object obj)
+        {
+            if (obj is FieldCell other)
+            {
+                return RowIndex == other.RowIndex && ColIndex == other.ColIndex;
+            }
+            return false;
+        }
 
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(RowIndex, ColIndex);
+        }
         public FieldCell(int RowIndex, int ColIndex) { 
             this.RowIndex = RowIndex;
             this.ColIndex = ColIndex;

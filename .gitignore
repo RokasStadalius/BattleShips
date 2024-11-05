@@ -6,3 +6,8 @@
 /BattleShips/BattleShips/obj
 /BattleShips/BattleShips/bin/Debug/net6.0
 /BattleShips/.vs/ProjectEvaluation
+
+/BattleShips/BattleShipsTestingProject/obj
+/BattleShips/BattleShipsTestingProject/bin/Debug/net6.0
+/BattleShips/BattleShipsTestingProject/TestResults
+
