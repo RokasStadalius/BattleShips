@@ -36,27 +36,37 @@ namespace BattleShips.Models
         {
             observers.Remove(observer);
         }
+        public IIterator<IFieldObserver> GetObserverIterator()
+        {
+            return new GenericIterator<IFieldObserver>(observers);
+        }
 
         private void NotifyShipPlaced(Ship ship, FieldCell cell)
         {
-            foreach (var observer in observers)
+            var iterator = GetObserverIterator();
+            while (iterator.HasNext())
             {
+                var observer = iterator.Next();
                 observer.OnShipPlaced(this, ship, cell);
             }
         }
 
         private void NotifyShotFired(FieldCell cell)
         {
-            foreach (var observer in observers)
+            var iterator = GetObserverIterator();
+            while (iterator.HasNext())
             {
+                var observer = iterator.Next();
                 observer.OnShotFired(this, cell);
             }
         }
 
         private void NotifyFieldStateChanged()
         {
-            foreach (var observer in observers)
+            var iterator = GetObserverIterator();
+            while (iterator.HasNext())
             {
+                var observer = iterator.Next();
                 observer.OnFieldStateChanged(this);
             }
         }
