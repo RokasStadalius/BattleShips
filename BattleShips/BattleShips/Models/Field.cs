@@ -14,6 +14,8 @@ namespace BattleShips.Models
         public bool IsReadyToPlay { get; set; }
         private readonly List<IFieldObserver> observers = new List<IFieldObserver>();
         private readonly CellFlyweight _flyweight;
+        public int ShotsDone { get; set; } = 0;
+        public int MissedShots { get; set; } = 0;
 
         public List<Ship> Ships { get; set; } = new List<Ship>();
         #endregion
@@ -26,6 +28,8 @@ namespace BattleShips.Models
             IsReadyToPlay = false;
             _flyweight = new CellFlyweight();
             BuildMap();
+            ShotsDone = 0;
+            MissedShots = 0;
         }
 
         #region Subject methods
@@ -79,6 +83,7 @@ namespace BattleShips.Models
         #region global Map Methods
         public void FireAtCell(FieldCell cellInitial, Ship selectedShip)
         {
+            this.ShotsDone++;
             cellInitial.IsShot = true;
             NotifyShotFired(cellInitial);
             List<FieldCell> attackCells = selectedShip.Attack(cellInitial);
@@ -99,8 +104,8 @@ namespace BattleShips.Models
                 }
 
             }
-
             NotifyFieldStateChanged();
+
         }
         public void PlaceShipOnMap(Ship shipFromList, FieldCell beginingCell)
         {
@@ -260,6 +265,24 @@ namespace BattleShips.Models
             else
                 return 0;
         }
+
+        public int CountShotShipCells()
+        {
+            int count = 0;
+			for (int i = 0; i < MapLayout.Length; i++)
+			{
+				for (int j = 0; j < MapLayout[i].Length; j++)
+				{
+					FieldCell cell = MapLayout[i][j];
+					if (cell.CellShip != null && cell.IsShot)
+					{
+                        count++;
+					}
+				}
+			}
+
+            return count;
+		}
        
     }
 
@@ -277,4 +300,5 @@ namespace BattleShips.Models
     {
         public AdvancedField(string name) : base(name, 20, 20) { }
     }
+
 }

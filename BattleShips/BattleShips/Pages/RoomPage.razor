@@ -25,6 +25,8 @@
 
     private List<Ship> placeholderShips = new List<Ship>();
 
+    private ShotsData shotsData = new ShotsData(0,0,0);
+
     IField factory;
 
     protected override async Task OnInitializedAsync()
@@ -123,6 +125,7 @@
         hubConnection.On("EndGame", () =>
         {
             currentRoom = RoomService.GetRoomById(RoomId);
+            shotsData = RetrieveShotsData();
             // Use JavaScript to show the modal
             InvokeAsync(StateHasChanged);
             JSRuntime.InvokeVoidAsync("showWinnerModal");
@@ -162,7 +165,26 @@
     {
         isConsoleExpanded = !isConsoleExpanded;
     }
-    
+
+    private int CalculatePrecisionScore(ShotsData data)
+    {
+        ScoringSystemTemplate precisionScore = new PrecisionScoring();
+
+
+        return precisionScore.CalculateScore(data);
+    }
+
+    private int CalculateEfficiencyScore(ShotsData data)
+    {
+        ScoringSystemTemplate timeBased = new EfficiencyScoring();
+
+        return timeBased.CalculateScore(data);
+    }
+
+    private ShotsData RetrieveShotsData()
+    {
+        return new ShotsData(fieldB.CountShotShipCells(), fieldB.MissedShots, fieldB.ShotsDone);
+    }
 }
 
 <h2>@UserState.CurrentUser?.UserName</h2>
@@ -256,6 +278,19 @@ else
                     @if (getUserCurrentPlayer() != null)
                     {
                         <b>@getUserCurrentPlayer().UserName </b>
+                    }
+                </p>
+                <p>Precision score:
+                    @if (fieldB != null)
+                    {
+                        <b>@CalculatePrecisionScore(shotsData)</b>
+                    }
+                </p>
+                <p>
+                    Efficiency score:
+                    @if (fieldB != null)
+                    {
+                        <b>@CalculateEfficiencyScore(shotsData)</b>
                     }
                 </p>
             </div>

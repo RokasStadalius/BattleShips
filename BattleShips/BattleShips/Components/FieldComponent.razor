@@ -61,26 +61,30 @@
     private Ship? selectedShip;
 
 
-	private void CellClicked(FieldCell cell)
-	{
-		if (Enabled && selectedShip != null)
-		{
-			FieldModel.FireAtCell(cell, selectedShip);
+    private void CellClicked(FieldCell cell)
+    {
+        if (Enabled && selectedShip != null)
+        {
+            FieldModel.FireAtCell(cell, selectedShip);
 
 
-
-			if (FieldModel.IsOutOfShips())
-			{
-				RoomService.EndGame("");
-				ToastService.ShowSuccess("All ships are destroyed!");
-			}
-			else
-			{
-				RoomService.ChangeTurn(RoomID);
-				Console.WriteLine("Nepataikei į laivą " + Enabled);
-			}
-		}
-		else
+            if (FieldModel.IsOutOfShips())
+            {
+                RoomService.EndGame("");
+                ToastService.ShowSuccess("All ships are destroyed!");
+            }
+            else
+            {
+                FieldModel.MissedShots++;
+                RoomService.ChangeTurn(RoomID);
+                Console.WriteLine("Nepataikei į laivą " + Enabled);
+            }
+        }
+        else if(selectedShip == null)
+        {
+            ToastService.ShowError("Pasirinkite laivą");
+        }
+        else
 		{
 			ToastService.ShowError("Ne tavo ėjimas!");
 		}
