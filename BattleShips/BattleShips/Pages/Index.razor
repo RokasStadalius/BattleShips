@@ -50,6 +50,7 @@ else
                     <th>Date</th>
                     <th>Name</th>
                     <th>MAX/CUR</th>
+                    <th>State</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -72,6 +73,11 @@ else
                                     @room.CurrentPlayerCount / @room.MaxPlayerCount
                                 </span>
                             }
+                        </td>
+                        <td>
+                            <span class="badge @(room.GetBadgeClass())">
+                                @room.GetStateName()
+                            </span>
                         </td>
                         <td>
                             @if (room.MaxPlayerCount > room.CurrentPlayerCount)

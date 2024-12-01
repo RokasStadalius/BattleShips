@@ -81,15 +81,5 @@ namespace BattleShips.Services
         {
             _hubContext.Clients.All.SendAsync("EndGame");
         }
-        public bool RemoveRoom(string roomID)
-        {
-            lock (_lock)
-            {
-                var room = GetRoomById(roomID);
-                return Rooms.Remove(room);
-            }
-        }
-
-
     }
 }

@@ -53,6 +53,8 @@
     }
     private void SendRoomMessage()
     {
+        currentRoom.HandleState();
+        RoomService.RefreshRoomList();
         if (currentRoom.CurrentPlayerCount == currentRoom.MaxPlayerCount)
         {
             ToastService.ShowSuccess("All Players are here!");
@@ -124,7 +126,8 @@
             // Use JavaScript to show the modal
             InvokeAsync(StateHasChanged);
             JSRuntime.InvokeVoidAsync("showWinnerModal");
-            RoomService.RemoveRoom(currentRoom.RoomId);
+            currentRoom.EndGame();
+            RoomService.RefreshRoomList();
             NavigationManager.NavigateTo($"/");
         });
     }
@@ -150,9 +153,10 @@
     {
         field.IsReadyToPlay = true;
         currentRoom.SetPlayerReady(UserState.CurrentUser.UserId);
-        if (currentRoom.IsGameStarted)
-            RoomService.StartRoomGame(currentRoom);
+        RoomService.RefreshRoomList();
 
+        if (currentRoom.IsGameStarted)
+            RoomService.StartRoomGame(currentRoom);    
     }
     private void ToggleConsole()
     {

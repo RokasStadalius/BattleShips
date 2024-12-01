@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using BattleShips.Models;
+using Microsoft.AspNetCore.SignalR;
 using System.Numerics;
 
 namespace BattleShips.Models
@@ -15,11 +16,14 @@ namespace BattleShips.Models
         public List<Tuple<Field, User,bool>> UserFields = new List<Tuple<Field, User,bool>>();
 
         public bool IsGameStarted = false;
+        public bool IsGameOver = false;
         public bool IsFull => UserFields.Count >= MaxPlayerCount;
 
         public string CurrentUserTurnID { get; set; }
 
         public string RoomType { get; set; }
+
+        private IRoomState _currentState;
 
         public Room(string roomName, string roomType)
         {
@@ -28,8 +32,28 @@ namespace BattleShips.Models
             IsGameStarted = false;
             DateCreated = DateTime.Now;
             RoomType = roomType;
+            _currentState = new RoomStateWaitingForPlayers();
+            _currentState.OnEnter(this);
         }
-
+        public void SetRoomState(IRoomState newState)
+        {
+            _currentState = newState;
+            _currentState.OnEnter(this);
+        }
+        public void HandleState()
+        {
+            _currentState.Handle(this);
+        }
+        public void StartGame()
+        {
+            IsGameStarted = true;
+            HandleState();
+        }
+        public void EndGame()
+        {
+            IsGameOver = true;
+            HandleState();
+        }
         public void SetPlayerReady(string userId)
         {
             var user = UserFields.Where(n => n.Item2.UserId == userId).FirstOrDefault();
@@ -41,7 +65,7 @@ namespace BattleShips.Models
 
             if (UserFields.Where(n=>(bool)n.Item3).Count() == MaxPlayerCount)
             {
-                IsGameStarted = true; // All players are ready
+                StartGame();
             }
         }
 
@@ -50,6 +74,14 @@ namespace BattleShips.Models
             var currentIndex = UserFields.FindIndex(u => u.Item2.UserId == CurrentUserTurnID);
             var nextIndex = (currentIndex + 1) % MaxPlayerCount; // Alternate turns
             CurrentUserTurnID = UserFields[nextIndex].Item2.UserId;
+        }
+        public string GetStateName()
+        {
+            return _currentState.StateName;
+        }
+        public string GetBadgeClass()
+        {
+            return _currentState.StateBadgeClass;
         }
     }
 
