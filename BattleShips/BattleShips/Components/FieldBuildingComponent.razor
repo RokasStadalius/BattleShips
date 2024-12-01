@@ -113,7 +113,10 @@
     {
         if (!cell.IsShot && cell.CellShip == null && draggedShip != null) //check if we do drag the ship
         {
-            var highlightedCell = new HighlightDecorator(cell, draggedShip); //pass draggedShip to the decorator
+            var highlightedCell = new HighlightDecorator(cell, draggedShip)
+            {
+                CellFlyweight = cell.CellFlyweight
+            }; //pass draggedShip to the decorator
             FieldModel.MapLayout[cell.RowIndex][cell.ColIndex] = highlightedCell;
             StateHasChanged();
         }
@@ -125,7 +128,8 @@
             {
                 CellShip = cell.CellShip,
                 IsShot = cell.IsShot,
-                IsAdjacent = cell.IsAdjacent
+                IsAdjacent = cell.IsAdjacent,
+                CellFlyweight = cell.CellFlyweight
             };
 
         StateHasChanged();

@@ -4,30 +4,25 @@
     {
         public int ColIndex { get; set; }
         public int RowIndex { get; set; }
-        public Ship? CellShip { get; set; }
+        public Ship CellShip { get; set; }
         public bool IsShot { get; set; }
         public bool IsAdjacent { get; set; }
 
-        private string color_Water = "rgb(79, 240, 202)";
-        private string color_Water_Hit = "rgb(42, 0, 148)";
-        private string color_Ship = "rgb(122, 196, 43)";
-        private string color_Ship_Hit = "rgb(227, 72, 48)";
+        public CellFlyweight CellFlyweight { get; set; }
 
         public virtual string GetCellColorState(bool showShips)
         {
             if (IsShot)
             {
                 if (CellShip != null)
-                    return color_Ship_Hit;
-                else
-                    return color_Water_Hit;
+                    return CellFlyweight.ColorShipHit; // Ship is hit
+                return CellFlyweight.ColorWaterHit; // Water is hit
             }
             else
             {
                 if (CellShip != null && showShips)
-                    return color_Ship;
-                else
-                    return color_Water;
+                    return CellFlyweight.ColorShip; // Ship present
+                return CellFlyweight.ColorWater; // Empty water cell
             }
         }
         public override bool Equals(object obj)
@@ -43,12 +38,13 @@
         {
             return HashCode.Combine(RowIndex, ColIndex);
         }
-        public FieldCell(int RowIndex, int ColIndex) { 
+        public FieldCell(int RowIndex, int ColIndex, CellFlyweight flyweight = null) { 
             this.RowIndex = RowIndex;
             this.ColIndex = ColIndex;
             this.CellShip = null;
             this.IsShot = false;
             this.IsAdjacent = false;
+            CellFlyweight = flyweight;
         }
         public FieldCell() { }
     }

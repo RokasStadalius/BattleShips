@@ -13,15 +13,18 @@ namespace BattleShips.Models
         public int Columns { get; set; }
         public bool IsReadyToPlay { get; set; }
         private readonly List<IFieldObserver> observers = new List<IFieldObserver>();
+        private readonly CellFlyweight _flyweight;
 
         public List<Ship> Ships { get; set; } = new List<Ship>();
         #endregion
         public Field(string name, int rows, int columns)
         {
+
             Name = name;
             Rows = rows;
             Columns = columns;
             IsReadyToPlay = false;
+            _flyweight = new CellFlyweight();
             BuildMap();
         }
 
@@ -200,6 +203,7 @@ namespace BattleShips.Models
                         ColIndex = j,
                         CellShip = null,
                         IsShot = false,
+                        CellFlyweight = _flyweight
                     };
                 }
             }
