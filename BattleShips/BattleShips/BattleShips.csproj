@@ -23,7 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.csproj" />
+    <ProjectReference Include="..\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.csproj" >
+		<OutputItemType>Analyzer</OutputItemType>
+	</ProjectReference>
   </ItemGroup>
   
 

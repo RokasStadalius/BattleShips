@@ -16,3 +16,20 @@ C:\Users\Rokas\Desktop\KTU STUFF\KTU 4 KURSAS\BattleShips\BattleShips\BattleShip
 C:\Users\Rokas\Desktop\KTU STUFF\KTU 4 KURSAS\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.Package.csproj.CopyComplete
 C:\Users\Rokas\Desktop\KTU STUFF\KTU 4 KURSAS\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.Package.dll
 C:\Users\Rokas\Desktop\KTU STUFF\KTU 4 KURSAS\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.Package.pdb
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\bin\Debug\netstandard2.0\tools\install.ps1
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\bin\Debug\netstandard2.0\tools\uninstall.ps1
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\bin\Debug\netstandard2.0\BattleShipsCodeAnalyzer.Package.deps.json
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\bin\Debug\netstandard2.0\BattleShipsCodeAnalyzer.Package.dll
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\bin\Debug\netstandard2.0\BattleShipsCodeAnalyzer.Package.pdb
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\bin\Debug\netstandard2.0\BattleShipsCodeAnalyzer.CodeFixes.dll
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\bin\Debug\netstandard2.0\BattleShipsCodeAnalyzer.dll
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\bin\Debug\netstandard2.0\BattleShipsCodeAnalyzer.CodeFixes.pdb
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\bin\Debug\netstandard2.0\BattleShipsCodeAnalyzer.pdb
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.Package.csproj.AssemblyReference.cache
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.Package.GeneratedMSBuildEditorConfig.editorconfig
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.Package.AssemblyInfoInputs.cache
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.Package.AssemblyInfo.cs
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.Package.csproj.CoreCompileInputs.cache
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.Package.csproj.CopyComplete
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.Package.dll
+D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Package\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.Package.pdb

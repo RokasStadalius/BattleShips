@@ -15,41 +15,40 @@ namespace BattleShipsCodeAnalyzer
     {
         public const string DiagnosticId = "BattleShipsCodeAnalyzer";
 
-        private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(
-        "DOC001", // Unique identifier for this rule
-        "Public class is missing XML documentation",
-        "Class '{0}' must have XML documentation",
-        "Documentation",
-        DiagnosticSeverity.Warning,
-        isEnabledByDefault: true);
+        // You can change these strings in the Resources.resx file. If you do not want your analyzer to be localize-able, you can use regular strings for Title and MessageFormat.
+        // See https://github.com/dotnet/roslyn/blob/main/docs/analyzers/Localizing%20Analyzers.md for more on localization
+        private static readonly LocalizableString Title = new LocalizableResourceString(nameof(Resources.AnalyzerTitle), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString MessageFormat = new LocalizableResourceString(nameof(Resources.AnalyzerMessageFormat), Resources.ResourceManager, typeof(Resources));
+        private static readonly LocalizableString Description = new LocalizableResourceString(nameof(Resources.AnalyzerDescription), Resources.ResourceManager, typeof(Resources));
+        private const string Category = "Naming";
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+        private static readonly DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Error, isEnabledByDefault: true, description: Description);
+
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return ImmutableArray.Create(Rule); } }
 
         public override void Initialize(AnalysisContext context)
         {
-            // Ensure the analyzer excludes generated code and runs concurrently
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.EnableConcurrentExecution();
 
-            // Register a symbol action for class declarations
-            context.RegisterSymbolAction(AnalyzeClass, SymbolKind.NamedType);
+            // TODO: Consider registering other actions that act on syntax instead of or in addition to symbols
+            // See https://github.com/dotnet/roslyn/blob/main/docs/analyzers/Analyzer%20Actions%20Semantics.md for more information
+            context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.NamedType);
         }
 
-        private static void AnalyzeClass(SymbolAnalysisContext context)
+        private static void AnalyzeSymbol(SymbolAnalysisContext context)
         {
-            var classSymbol = (INamedTypeSymbol)context.Symbol;
+            // TODO: Replace the following code with your own analysis, generating Diagnostic objects for any issues you find
+            var namedTypeSymbol = (INamedTypeSymbol)context.Symbol;
 
-            // Analyze only public classes
-            if (classSymbol.DeclaredAccessibility == Accessibility.Public)
+            // Find just those named type symbols with names containing lowercase letters.
+            if (namedTypeSymbol.Name.ToCharArray().Any(char.IsLower))
             {
-                // Check if XML documentation is present
-                if (string.IsNullOrWhiteSpace(classSymbol.GetDocumentationCommentXml()))
-                {
-                    var diagnostic = Diagnostic.Create(Rule, classSymbol.Locations[0], classSymbol.Name);
-                    context.ReportDiagnostic(diagnostic);
-                }
+                // For all such symbols, produce a diagnostic.
+                var diagnostic = Diagnostic.Create(Rule, namedTypeSymbol.Locations[0], namedTypeSymbol.Name);
+
+                context.ReportDiagnostic(diagnostic);
             }
         }
-
     }
 }
