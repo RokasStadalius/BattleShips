@@ -4,18 +4,6 @@ namespace BattleShips.Models
 {
     public class Destroyer : Ship
     {
-        //Treciam laborui: vienas is pasiulymu pakeist skaiciukus konstukrtoriuje i kintamuosius
-        //private const int maxDestroyerPlacement = 4;
-        //private const int destroyerLength = 2;
-
-        //private const int maxSubmarinePlacement = 2;
-        //private const int submarineLength = 3;
-
-        //private const int maxBattleshipPlacement = 1;
-        //private const int battleshipLength = 4;
-
-        //private const int maxCarrierPlacement = 1;
-        //private const int carrierLength = 5;
         public Destroyer(int shipID, int shipTypeID, string shipName) : base(new DestroyerAttackStrategy())
         {
             this.ShipID = shipID;
