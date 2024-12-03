@@ -21,6 +21,10 @@
   <ItemGroup>
     <None Include="wwwroot\Images\Observer_SD.png" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.csproj" />
+  </ItemGroup>
   
 
 </Project>
