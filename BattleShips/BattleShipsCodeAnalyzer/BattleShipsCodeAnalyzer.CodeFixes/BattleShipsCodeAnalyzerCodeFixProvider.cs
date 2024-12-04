@@ -20,7 +20,7 @@ namespace BattleShipsCodeAnalyzer
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
-            get { return ImmutableArray.Create(BattleShipsCodeAnalyzerAnalyzer.DiagnosticId); }
+            get { return ImmutableArray.Create(BattleShipsNullCheckAnalyzer.DiagnosticId); }
         }
 
         public sealed override FixAllProvider GetFixAllProvider()

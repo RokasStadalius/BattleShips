@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BattleShipsCodeAnalyzer.Vsix")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5b0c8ed48a42da5bb51e38aca127580da538fd2c")]
 [assembly: System.Reflection.AssemblyProductAttribute("BattleShipsCodeAnalyzer.Vsix")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BattleShipsCodeAnalyzer.Vsix")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

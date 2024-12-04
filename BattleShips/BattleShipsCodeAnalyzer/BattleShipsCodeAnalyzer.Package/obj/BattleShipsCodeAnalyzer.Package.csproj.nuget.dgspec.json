@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Package\\BattleShipsCodeAnalyzer.Package.csproj": {}
+    "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Package\\BattleShipsCodeAnalyzer.Package.csproj": {}
   },
   "projects": {
-    "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\BattleShipsCodeAnalyzer.CodeFixes.csproj": {
+    "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\BattleShipsCodeAnalyzer.CodeFixes.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\BattleShipsCodeAnalyzer.CodeFixes.csproj",
+        "projectUniqueName": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\BattleShipsCodeAnalyzer.CodeFixes.csproj",
         "projectName": "BattleShipsCodeAnalyzer.CodeFixes",
-        "projectPath": "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\BattleShipsCodeAnalyzer.CodeFixes.csproj",
-        "packagesPath": "C:\\Users\\vidma\\.nuget\\packages\\",
-        "outputPath": "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\obj\\",
+        "projectPath": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\BattleShipsCodeAnalyzer.CodeFixes.csproj",
+        "packagesPath": "C:\\Users\\Rokas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\vidma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Rokas\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +28,8 @@
           "netstandard2.0": {
             "targetAlias": "netstandard2.0",
             "projectReferences": {
-              "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj": {
-                "projectPath": "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj"
+              "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj": {
+                "projectPath": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj"
               }
             }
           }
@@ -66,21 +66,21 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Package\\BattleShipsCodeAnalyzer.Package.csproj": {
+    "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Package\\BattleShipsCodeAnalyzer.Package.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Package\\BattleShipsCodeAnalyzer.Package.csproj",
+        "projectUniqueName": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Package\\BattleShipsCodeAnalyzer.Package.csproj",
         "projectName": "BattleShipsCodeAnalyzer",
-        "projectPath": "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Package\\BattleShipsCodeAnalyzer.Package.csproj",
-        "packagesPath": "C:\\Users\\vidma\\.nuget\\packages\\",
-        "outputPath": "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Package\\obj\\",
+        "projectPath": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Package\\BattleShipsCodeAnalyzer.Package.csproj",
+        "packagesPath": "C:\\Users\\Rokas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Package\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\vidma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Rokas\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -94,11 +94,11 @@
           "netstandard2.0": {
             "targetAlias": "netstandard2.0",
             "projectReferences": {
-              "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\BattleShipsCodeAnalyzer.CodeFixes.csproj": {
-                "projectPath": "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\BattleShipsCodeAnalyzer.CodeFixes.csproj"
+              "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\BattleShipsCodeAnalyzer.CodeFixes.csproj": {
+                "projectPath": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\BattleShipsCodeAnalyzer.CodeFixes.csproj"
               },
-              "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj": {
-                "projectPath": "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj"
+              "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj": {
+                "projectPath": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj"
               }
             }
           }
@@ -131,21 +131,21 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj": {
+    "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj",
+        "projectUniqueName": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj",
         "projectName": "*BattleShipsCodeAnalyzer.csproj*",
-        "projectPath": "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj",
-        "packagesPath": "C:\\Users\\vidma\\.nuget\\packages\\",
-        "outputPath": "D:\\Visual Studio Darbai\\BattleShip\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\obj\\",
+        "projectPath": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj",
+        "packagesPath": "C:\\Users\\Rokas\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\vidma\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Rokas\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -197,7 +197,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.400\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }

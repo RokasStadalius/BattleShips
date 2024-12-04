@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 using VerifyCS = BattleShipsCodeAnalyzer.Test.CSharpCodeFixVerifier<
-    BattleShipsCodeAnalyzer.BattleShipsCodeAnalyzerAnalyzer,
+    BattleShipsCodeAnalyzer.BattleShipsNullCheckAnalyzer,
     BattleShipsCodeAnalyzer.BattleShipsCodeAnalyzerCodeFixProvider>;
 
 namespace BattleShipsCodeAnalyzer.Test
