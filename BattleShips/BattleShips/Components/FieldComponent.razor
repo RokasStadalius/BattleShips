@@ -1,4 +1,5 @@
 ﻿@using BattleShips.Models;
+@using BattleShips.Models.Handlers;
 @using BattleShips.Services
 @inject RoomService RoomService
 @inject Blazored.Toast.Services.IToastService ToastService
@@ -61,34 +62,21 @@
     private Ship? selectedShip;
 
 
-    private void CellClicked(FieldCell cell)
+    public void CellClicked(FieldCell cell)
     {
-        if (Enabled && selectedShip != null)
-        {
-            FieldModel.FireAtCell(cell, selectedShip);
+        var shipSelectionHandler = new ShipSelectionHandler();
+        var turnHandler = new TurnHandler();
+        var cellAlreadyShotHandler = new CellAlreadyShotHandler();
+        var fireAtCellHandler = new FireAtCellHandler();
+
+       
+        shipSelectionHandler.SetNext(turnHandler);
+        turnHandler.SetNext(cellAlreadyShotHandler);
+        cellAlreadyShotHandler.SetNext(fireAtCellHandler);
 
 
-            if (FieldModel.IsOutOfShips())
-            {
-                RoomService.EndGame("");
-                ToastService.ShowSuccess("All ships are destroyed!");
-            }
-            else
-            {
-                FieldModel.MissedShots++;
-                RoomService.ChangeTurn(RoomID);
-                Console.WriteLine("Nepataikei į laivą " + Enabled);
-            }
-        }
-        else if(selectedShip == null)
-        {
-            ToastService.ShowError("Pasirinkite laivą");
-        }
-        else
-		{
-			ToastService.ShowError("Ne tavo ėjimas!");
-		}
-	}
+        shipSelectionHandler.Handle(cell, FieldModel, RoomService, ToastService, Enabled, selectedShip, RoomID);
+    }
 
     private void OnMouseOver(FieldCell cell)
     {
