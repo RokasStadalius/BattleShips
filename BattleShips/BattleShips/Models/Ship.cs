@@ -1,4 +1,6 @@
-﻿namespace BattleShips.Models
+﻿using BattleShips.Models;
+
+namespace BattleShips.Models
 {
     public abstract class Ship : ICloneable
     {

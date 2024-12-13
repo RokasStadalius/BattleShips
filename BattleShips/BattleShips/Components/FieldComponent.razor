@@ -1,11 +1,13 @@
-﻿@using BattleShips.Models;
-@using BattleShips.Models.Handlers;
+﻿@using BattleShips.Models
+@using BattleShips.Models.Handlers
+@using BattleShips.Models.Interpretor
 @using BattleShips.Services
 @inject RoomService RoomService
 @inject Blazored.Toast.Services.IToastService ToastService
 @using Microsoft.AspNetCore.SignalR.Client
 
 <h1>@FieldModel.Name</h1>
+
 <div class="field-container">
     <div class="row">
         <div class="cell header-cell"></div>
@@ -29,22 +31,29 @@
                 FieldCell innerCell = FieldModel.MapLayout[row][col];
                 <div class="cell">
                     <button class="cell-button" style="background-color:@(innerCell.GetCellColorState(ShowFieldShips));"
-                    @onmouseover="@(e => OnMouseOver(innerCell))"
-                    @onmouseout="OnMouseOut"
-                    @onclick="@(e => CellClicked(innerCell))">
+                            @onmouseover="@(e => OnMouseOver(innerCell))"
+                            @onmouseout="OnMouseOut"
+                            @onclick="@(e => CellClicked(innerCell))">
                     </button>
                 </div>
             }
         </div>
     }
-    <div class="ship-list">
-        @foreach (var ship in Ships)
-        {
-            <button @onclick="() => SelectShip(ship)">
-                Select @ship.ShipName
-            </button>
-        }
-    </div>
+</div>
+
+<div class="ship-list">
+    @foreach (var ship in Ships)
+    {
+        <button @onclick="() => SelectShip(ship)">
+            Select @ship.ShipName
+        </button>
+    }
+</div>
+
+<!-- Command Line Section -->
+<div class="command-line">
+    <input type="text" class="command-input" @bind="CommandInput" placeholder="Enter command..." />
+    <button class="command-submit" @onclick="ExecuteCommand">Execute</button>
 </div>
 
 @code {
@@ -60,22 +69,16 @@
     public List<Ship> Ships { get; set; }
     private FieldCell? hoveredCell;
     private Ship? selectedShip;
+    private string CommandInput { get; set; } = string.Empty;
 
+    private readonly CommandInterpreter commandInterpreter = new();
 
     public void CellClicked(FieldCell cell)
     {
-        var shipSelectionHandler = new ShipSelectionHandler();
-        var turnHandler = new TurnHandler();
-        var cellAlreadyShotHandler = new CellAlreadyShotHandler();
-        var fireAtCellHandler = new FireAtCellHandler();
+        var expression = new CellClickExpression("click");
+        commandInterpreter.AddCommand(expression);
 
-       
-        shipSelectionHandler.SetNext(turnHandler);
-        turnHandler.SetNext(cellAlreadyShotHandler);
-        cellAlreadyShotHandler.SetNext(fireAtCellHandler);
-
-
-        shipSelectionHandler.Handle(cell, FieldModel, RoomService, ToastService, Enabled, selectedShip, RoomID);
+        commandInterpreter.Interpret(FieldModel, cell, selectedShip, RoomService, ToastService, Enabled, RoomID);
     }
 
     private void OnMouseOver(FieldCell cell)
@@ -92,6 +95,50 @@
     {
         selectedShip = ship;
         ToastService.ShowInfo($"Selected {ship.ShipName}");
+        StateHasChanged();
+    }
+
+    public void ExecuteCommand()
+    {
+        if (string.IsNullOrWhiteSpace(CommandInput))
+        {
+            ToastService.ShowError("Command cannot be empty.");
+            return;
+        }
+
+        // Parse the command input
+        var commandParts = CommandInput.Split(' ');
+        var command = commandParts[0].ToLower();
+
+        switch (command)
+        {
+            case "click":
+                if (commandParts.Length == 2)
+                {
+                    var position = commandParts[1];
+                    if (FieldModel.TryParsePosition(position, out var cell))
+                    {
+                        var expression = new CellClickExpression(position);
+                        commandInterpreter.AddCommand(expression);
+                        commandInterpreter.Interpret(FieldModel, cell, selectedShip, RoomService, ToastService, Enabled, RoomID);
+                    }
+                    else
+                    {
+                        ToastService.ShowError($"Invalid position: {position}");
+                    }
+                }
+                else
+                {
+                    ToastService.ShowError("Usage: click <position>");
+                }
+                break;
+
+            default:
+                ToastService.ShowError("Unknown command.");
+                break;
+        }
+
+        CommandInput = string.Empty; // Clear the input field
         StateHasChanged();
     }
 }

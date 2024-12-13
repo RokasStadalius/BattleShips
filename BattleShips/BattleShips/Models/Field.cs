@@ -283,7 +283,32 @@ namespace BattleShips.Models
 
             return count;
 		}
-       
+
+        public bool TryParsePosition(string position, out FieldCell? cell)
+        {
+            cell = null;
+
+            if (string.IsNullOrWhiteSpace(position) || position.Length < 2)
+                return false;
+
+            char columnChar = position[0];
+            if (!char.IsLetter(columnChar))
+                return false;
+
+            string rowString = position.Substring(1);
+            if (!int.TryParse(rowString, out int row) || row <= 0)
+                return false;
+
+            int column = char.ToUpper(columnChar) - 'A';
+
+            if (row > MapLayout.Length || column < 0 || column >= MapLayout[0].Length)
+                return false;
+
+            cell = MapLayout[row - 1][column];
+            return true;
+        }
+
+
     }
 
     public class StandartField : Field

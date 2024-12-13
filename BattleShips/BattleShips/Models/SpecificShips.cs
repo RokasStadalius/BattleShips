@@ -62,6 +62,7 @@ namespace BattleShips.Models
 
             return clone;
         }
+
     }
     public class Battleship : Ship
     {
@@ -92,6 +93,7 @@ namespace BattleShips.Models
 
             return clone;
         }
+
     }
     public class Carrier : Ship
     {
