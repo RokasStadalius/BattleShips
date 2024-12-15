@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Copyright")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("BattleShipsCodeAnalyzer")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5b0c8ed48a42da5bb51e38aca127580da538fd2c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("BattleShipsCodeAnalyzer.Package")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BattleShipsCodeAnalyzer.Package")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -23,3 +23,15 @@ D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShi
 D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.csproj.CoreCompileInputs.cache
 D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.dll
 D:\Visual Studio Darbai\BattleShip\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.pdb
+C:\Users\serhi\Desktop\battleShips\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\bin\Debug\netstandard2.0\BattleShipsCodeAnalyzer.deps.json
+C:\Users\serhi\Desktop\battleShips\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\bin\Debug\netstandard2.0\BattleShipsCodeAnalyzer.dll
+C:\Users\serhi\Desktop\battleShips\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\bin\Debug\netstandard2.0\BattleShipsCodeAnalyzer.pdb
+C:\Users\serhi\Desktop\battleShips\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.csproj.AssemblyReference.cache
+C:\Users\serhi\Desktop\battleShips\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.Resources.resources
+C:\Users\serhi\Desktop\battleShips\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.csproj.GenerateResource.cache
+C:\Users\serhi\Desktop\battleShips\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\serhi\Desktop\battleShips\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.AssemblyInfoInputs.cache
+C:\Users\serhi\Desktop\battleShips\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.AssemblyInfo.cs
+C:\Users\serhi\Desktop\battleShips\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.csproj.CoreCompileInputs.cache
+C:\Users\serhi\Desktop\battleShips\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.dll
+C:\Users\serhi\Desktop\battleShips\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer\obj\Debug\netstandard2.0\BattleShipsCodeAnalyzer.pdb

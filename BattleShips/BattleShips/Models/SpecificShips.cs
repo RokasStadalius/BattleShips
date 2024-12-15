@@ -31,6 +31,11 @@ namespace BattleShips.Models
 
             return clone;
         }
+
+        public override void Accept(IShipVisitor visitor)
+        {
+            visitor.VisitDestroyer(this);
+        }
     }
     public class Submarine : Ship
     {
@@ -63,6 +68,10 @@ namespace BattleShips.Models
             return clone;
         }
 
+        public override void Accept(IShipVisitor visitor)
+        {
+            visitor.VisitSubmarine(this);
+        }
     }
     public class Battleship : Ship
     {
@@ -92,6 +101,11 @@ namespace BattleShips.Models
             
 
             return clone;
+        }
+
+        public override void Accept(IShipVisitor visitor)
+        {
+            visitor.VisitBattleship(this);
         }
 
     }
@@ -125,6 +139,11 @@ namespace BattleShips.Models
         public override Ship MakeShalowCopy()
         {
             return (Ship)this.MemberwiseClone();
+        }
+
+        public override void Accept(IShipVisitor visitor)
+        {
+            visitor.VisitCarrier(this);
         }
     }
 }

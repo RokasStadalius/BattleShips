@@ -1176,19 +1176,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Rokas\\.nuget\\packages\\": {}
+    "C:\\Users\\serhi\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Vsix\\BattleShipsCodeAnalyzer.Vsix.csproj",
+      "projectUniqueName": "C:\\Users\\serhi\\Desktop\\battleShips\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Vsix\\BattleShipsCodeAnalyzer.Vsix.csproj",
       "projectName": "BattleShipsCodeAnalyzer.Vsix",
-      "projectPath": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Vsix\\BattleShipsCodeAnalyzer.Vsix.csproj",
-      "packagesPath": "C:\\Users\\Rokas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Vsix\\obj\\",
+      "projectPath": "C:\\Users\\serhi\\Desktop\\battleShips\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Vsix\\BattleShipsCodeAnalyzer.Vsix.csproj",
+      "packagesPath": "C:\\Users\\serhi\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\serhi\\Desktop\\battleShips\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.Vsix\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\Rokas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\serhi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1202,11 +1207,11 @@
         "net472": {
           "targetAlias": "net472",
           "projectReferences": {
-            "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\BattleShipsCodeAnalyzer.CodeFixes.csproj": {
-              "projectPath": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\BattleShipsCodeAnalyzer.CodeFixes.csproj"
+            "C:\\Users\\serhi\\Desktop\\battleShips\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\BattleShipsCodeAnalyzer.CodeFixes.csproj": {
+              "projectPath": "C:\\Users\\serhi\\Desktop\\battleShips\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.CodeFixes\\BattleShipsCodeAnalyzer.CodeFixes.csproj"
             },
-            "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj": {
-              "projectPath": "C:\\Users\\Rokas\\Desktop\\KTU STUFF\\KTU 4 KURSAS\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj"
+            "C:\\Users\\serhi\\Desktop\\battleShips\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj": {
+              "projectPath": "C:\\Users\\serhi\\Desktop\\battleShips\\BattleShips\\BattleShips\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer\\BattleShipsCodeAnalyzer.csproj"
             }
           }
         }
@@ -1227,7 +1232,7 @@
             "version": "[16.8.3038, )"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -313,6 +313,7 @@ namespace BattleShips.Models
 
     public class StandartField : Field
     {
+
         public StandartField(string name) : base(name, 10, 10) { }
     }
 

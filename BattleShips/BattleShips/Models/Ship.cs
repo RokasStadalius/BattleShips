@@ -2,7 +2,7 @@
 
 namespace BattleShips.Models
 {
-    public abstract class Ship : ICloneable
+    public abstract class Ship : ShipComponent, ICloneable
     {
         public int ShipID { get; set; }
         public int ShipTypeID { get; set; }
@@ -24,6 +24,16 @@ namespace BattleShips.Models
             return AttackStrategy.ExecuteAttack(target);
         }
 
-        
+        public abstract void Accept(IShipVisitor visitor);
+
+        public override int GetLength()
+        {
+            return Length;
+        }
+
+        public override void DisplayDetails()
+        {
+            Console.WriteLine($"{ShipName} - (length: {Length}).");
+        }
     }
 }

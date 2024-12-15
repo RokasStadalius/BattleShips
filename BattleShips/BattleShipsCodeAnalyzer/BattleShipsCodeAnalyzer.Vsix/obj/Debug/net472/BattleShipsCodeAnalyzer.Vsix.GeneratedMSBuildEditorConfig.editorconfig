@@ -1,5 +1,3 @@
 is_global = true
 build_property.RootNamespace = BattleShipsCodeAnalyzer.Vsix
-build_property.ProjectDir = C:\Users\Rokas\Desktop\KTU STUFF\KTU 4 KURSAS\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Vsix\
-build_property.EnableComHosting = 
-build_property.EnableGeneratedComInterfaceComImportInterop = 
+build_property.ProjectDir = C:\Users\serhi\Desktop\battleShips\BattleShips\BattleShips\BattleShipsCodeAnalyzer\BattleShipsCodeAnalyzer.Vsix\
